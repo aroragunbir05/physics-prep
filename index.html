@@ -12,11 +12,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- MathJax -->
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    
+    <!-- MATHJAX CONFIGURATION (Fixes the issue) -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <!-- MathJax Library -->
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
-    <!-- Palette -->
     <style>
         :root {
             --bg-primary: #0B0E14;
@@ -34,6 +46,7 @@
             overflow-x: hidden;
         }
 
+        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: var(--bg-secondary); }
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
@@ -42,9 +55,6 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
         
-        @keyframes slideIn { from { transform: translateX(20px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-        .animate-slide-in { animation: slideIn 0.4s ease-out forwards; }
-
         .glass-panel {
             background: rgba(21, 25, 33, 0.7);
             backdrop-filter: blur(12px);
@@ -64,14 +74,20 @@
             -webkit-text-fill-color: transparent;
         }
 
-        .custom-checkbox:checked + div {
-            background-color: rgba(16, 185, 129, 0.2);
-            border-color: #10B981;
+        /* MathJax adjustments */
+        mjx-container {
+            font-size: 110% !important;
+            color: #E2E8F0 !important;
         }
-        .custom-checkbox:checked + div i { opacity: 1; transform: scale(1); }
         
-        /* MathJax Adjustments */
-        mjx-container { font-size: 110% !important; color: #E2E8F0 !important; }
+        /* Note Content Styling */
+        .note-content h3 { font-size: 1.5rem; font-weight: 700; color: white; margin-bottom: 1rem; margin-top: 2rem; }
+        .note-content h4 { font-size: 1.25rem; font-weight: 600; color: #60A5FA; margin-bottom: 0.5rem; margin-top: 1.5rem; }
+        .note-content p { margin-bottom: 0.75rem; line-height: 1.6; color: #CBD5E1; }
+        .note-content ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; color: #CBD5E1; }
+        .note-content li { margin-bottom: 0.5rem; }
+        .note-content strong { color: white; }
+        .formula-box { background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(148, 163, 184, 0.1); padding: 1rem; border-radius: 0.5rem; margin: 1rem 0; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -98,7 +114,7 @@
         </div>
     </header>
 
-    <!-- Main Content -->
+    <!-- Main Content Container -->
     <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full relative">
 
         <!-- VIEW: DASHBOARD -->
@@ -109,8 +125,8 @@
                     <div class="relative z-10">
                         <h2 class="text-3xl font-bold text-white mb-2">Exam Strategy Center</h2>
                         <p class="text-slate-400 text-lg leading-relaxed">
-                            Targeting <strong>70/70</strong>. Based on 2025-26 Blueprint. 
-                            <br><span class="text-blue-400 font-semibold">Priority:</span> Electrostatics, Optics & Magnetism.
+                            Targeting <strong>70/70</strong>. Based on the strict 2025-26 Blueprint. 
+                            <br><span class="text-blue-400 font-semibold">Focus:</span> Optics (18M) & Magnetism (17M) are your winning zones.
                         </p>
                     </div>
                 </div>
@@ -190,12 +206,12 @@
         <div id="view-study-zone" class="hidden space-y-8 animate-fade-in">
             <div class="text-center py-8">
                 <h2 class="text-4xl font-bold text-white mb-2">Deep Dive Study Zone</h2>
-                <p class="text-slate-400">Comprehensive Notes, Derivations, and Exam-Ready Answers.</p>
+                <p class="text-slate-400">Complete Syllabus Notes, Derivations, and Exam-Ready Answers.</p>
             </div>
             <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 h-full">
-                <div class="lg:col-span-1 space-y-2 h-fit sticky top-24" id="study-nav"></div>
+                <div class="lg:col-span-1 space-y-2 h-fit sticky top-24 overflow-y-auto max-h-[80vh] custom-scrollbar" id="study-nav"></div>
                 <div class="lg:col-span-3">
-                    <div id="study-content" class="glass-panel p-8 rounded-2xl border border-gray-800 min-h-[600px]"></div>
+                    <div id="study-content" class="glass-panel p-8 rounded-2xl border border-gray-800 min-h-[600px] note-content"></div>
                 </div>
             </div>
         </div>
@@ -209,208 +225,261 @@
             <h3 id="modal-title" class="text-xl font-bold text-white"></h3>
             <button onclick="closeModal()" class="text-slate-400 hover:text-white"><i class="fas fa-times"></i></button>
         </div>
-        <div id="modal-body" class="flex-1 overflow-y-auto p-6 space-y-6"></div>
+        <div id="modal-body" class="flex-1 overflow-y-auto p-6 space-y-6 note-content"></div>
     </div>
 
     <!-- JS Logic -->
     <script>
-        // --- 1. ENHANCED Q&A DATABASE (Exam Ready) ---
+        // --- DATA: Q&A ---
         const qaDatabase = {
             'hot-list': [
                 {
                     q: "Q31: Derive the expression for Capacitance of a parallel plate capacitor with a dielectric slab of thickness t < d.",
-                    a: `
-                        <div class="space-y-4 text-slate-300 text-sm leading-relaxed">
-                            <p><strong>Step 1: Setup</strong><br>Consider a parallel plate capacitor with area $A$, separation $d$. Vacuum field is $E_0 = \\sigma/\\epsilon_0$. A dielectric slab of thickness $t$ and constant $K$ is inserted.</p>
-                            <p><strong>Step 2: Field Distribution</strong><br>Inside air (thickness $d-t$): Field is $E_0$.<br>Inside dielectric (thickness $t$): Field is $E = E_0/K$.</p>
-                            <p><strong>Step 3: Potential Difference (V)</strong><br>
-                            $$ V = E_0(d-t) + E(t) $$<br>
-                            $$ V = E_0(d-t) + \\frac{E_0}{K}(t) $$<br>
-                            $$ V = E_0 [d - t + \\frac{t}{K}] = E_0 [d - t(1 - \\frac{1}{K})] $$</p>
-                            <p><strong>Step 4: Capacitance</strong><br>
-                            Since $E_0 = \\frac{Q}{A\\epsilon_0}$, substitute $E_0$:<br>
-                            $$ V = \\frac{Q}{A\\epsilon_0} [d - t(1 - \\frac{1}{K})] $$<br>
-                            $$ C = \\frac{Q}{V} = \\frac{\\epsilon_0 A}{d - t(1 - \\frac{1}{K})} $$</p>
-                        </div>
-                    `,
+                    a: "<strong>Step 1: Setup</strong><br>Consider a parallel plate capacitor with area $A$, separation $d$. Vacuum field is $E_0 = \\sigma/\\epsilon_0$. A dielectric slab of thickness $t$ and constant $K$ is inserted.<br><br><strong>Step 2: Field Distribution</strong><br>Inside air (thickness $d-t$): Field is $E_0$.<br>Inside dielectric (thickness $t$): Field is $E = E_0/K$.<br><br><strong>Step 3: Potential Difference (V)</strong><br>$$ V = E_0(d-t) + E(t) $$<br>$$ V = E_0(d-t) + \\frac{E_0}{K}(t) $$<br>$$ V = E_0 [d - t + \\frac{t}{K}] = E_0 [d - t(1 - \\frac{1}{K})] $$<br><br><strong>Step 4: Capacitance</strong><br>Since $E_0 = \\frac{Q}{A\\epsilon_0}$, substitute $E_0$:<br>$$ V = \\frac{Q}{A\\epsilon_0} [d - t(1 - \\frac{1}{K})] $$<br>$$ C = \\frac{Q}{V} = \\frac{\\epsilon_0 A}{d - t(1 - \\frac{1}{K})} $$",
                     twist: "<strong>Twist:</strong> If a metal slab is used ($K=\\infty$), the term $1/K \\to 0$. Formula becomes $C = \\epsilon_0 A / (d-t)$."
                 },
                 {
                     q: "Q32: Lens Maker's Formula (Convex Lens)",
-                    a: `
-                        <div class="space-y-4 text-slate-300 text-sm leading-relaxed">
-                            <p><strong>Assumptions:</strong> Thin lens, paraxial rays, point object.</p>
-                            <p><strong>Surface 1 (Air $n_1$ to Glass $n_2$):</strong> Image $I_1$ forms at $v'$.<br>
-                            $$ \\frac{n_2}{v'} - \\frac{n_1}{u} = \\frac{n_2-n_1}{R_1} \\quad ...(1) $$</p>
-                            <p><strong>Surface 2 (Glass $n_2$ to Air $n_1$):</strong> $I_1$ acts as virtual object. Final image $I$ at $v$.<br>
-                            $$ \\frac{n_1}{v} - \\frac{n_2}{v'} = \\frac{n_1-n_2}{R_2} \\quad ...(2) $$</p>
-                            <p><strong>Combine:</strong> Add (1) and (2):<br>
-                            $$ \\frac{n_1}{v} - \\frac{n_1}{u} = (n_2-n_1)(\\frac{1}{R_1} - \\frac{1}{R_2}) $$<br>
-                            Divide by $n_1$: $$ \\frac{1}{v} - \\frac{1}{u} = (\\frac{n_2}{n_1} - 1)(\\frac{1}{R_1} - \\frac{1}{R_2}) $$</p>
-                            <p><strong>Result:</strong> When $u=\\infty, v=f$. So, $1/f = (\\mu - 1)(1/R_1 - 1/R_2)$.</p>
-                        </div>
-                    `,
+                    a: "<strong>Assumptions:</strong> Thin lens, paraxial rays, point object.<br><br><strong>Surface 1 (Air $n_1$ to Glass $n_2$):</strong> Image $I_1$ forms at $v'$.<br>$$ \\frac{n_2}{v'} - \\frac{n_1}{u} = \\frac{n_2-n_1}{R_1} \\quad ...(1) $$<br><br><strong>Surface 2 (Glass $n_2$ to Air $n_1$):</strong> $I_1$ acts as virtual object. Final image $I$ at $v$.<br>$$ \\frac{n_1}{v} - \\frac{n_2}{v'} = \\frac{n_1-n_2}{R_2} \\quad ...(2) $$<br><br><strong>Combine:</strong> Add (1) and (2):<br>$$ \\frac{n_1}{v} - \\frac{n_1}{u} = (n_2-n_1)(\\frac{1}{R_1} - \\frac{1}{R_2}) $$<br>Divide by $n_1$: $$ \\frac{1}{v} - \\frac{1}{u} = (\\frac{n_2}{n_1} - 1)(\\frac{1}{R_1} - \\frac{1}{R_2}) $$<br><br><strong>Result:</strong> When $u=\\infty, v=f$. So, $1/f = (\\mu - 1)(1/R_1 - 1/R_2)$.",
                     twist: "<strong>Twist:</strong> For Equi-convex lens, $R_1 = +R, R_2 = -R$. Formula: $1/f = (\\mu-1)(2/R)$."
                 },
                 {
                     q: "Q33: Transformer Principle & Losses",
-                    a: `
-                        <div class="space-y-4 text-slate-300 text-sm leading-relaxed">
-                            <p><strong>Principle:</strong> Mutual Induction. An alternating current in primary coil produces changing magnetic flux, which induces EMF in secondary coil.</p>
-                            <p><strong>Formula:</strong> $V_s/V_p = N_s/N_p = I_p/I_s = k$ (Transformation Ratio).</p>
-                            <p><strong>Energy Losses (4 Marks part):</strong><br>
-                            1. <strong>Flux Leakage:</strong> Not all primary flux links secondary. (Fix: Soft iron core).<br>
-                            2. <strong>Resistance (Copper Loss):</strong> Heat $I^2R$ in windings. (Fix: Thick copper wires).<br>
-                            3. <strong>Eddy Currents:</strong> Induced currents in core cause heat. (Fix: Laminated core).<br>
-                            4. <strong>Hysteresis:</strong> Magnetization/Demagnetization heat. (Fix: Soft iron material).
-                            </p>
-                        </div>
-                    `,
+                    a: "<strong>Principle:</strong> Mutual Induction. An alternating current in primary coil produces changing magnetic flux, which induces EMF in secondary coil.<br><br><strong>Formula:</strong> $V_s/V_p = N_s/N_p = I_p/I_s = k$ (Transformation Ratio).<br><br><strong>Energy Losses (4 Marks part):</strong><br>1. <strong>Flux Leakage:</strong> Not all primary flux links secondary. (Fix: Soft iron core).<br>2. <strong>Resistance (Copper Loss):</strong> Heat $I^2R$ in windings. (Fix: Thick copper wires).<br>3. <strong>Eddy Currents:</strong> Induced currents in core cause heat. (Fix: Laminated core).<br>4. <strong>Hysteresis:</strong> Magnetization/Demagnetization heat. (Fix: Soft iron material).",
                     twist: "<strong>Twist:</strong> For long distance transmission, Step-Up transformer is used at power station to reduce current ($I$) and thus reduce $I^2R$ line losses."
                 }
             ],
             'repeated-list': [
                 {
                     q: "Gauss Law Application: Infinite Line Charge",
-                    a: `
-                        <div class="space-y-4 text-slate-300 text-sm leading-relaxed">
-                            <p><strong>Goal:</strong> Field $E$ at distance $r$ from wire with density $\\lambda$.</p>
-                            <p><strong>Gaussian Surface:</strong> Cylinder of radius $r$, length $l$.</p>
-                            <p><strong>Flux Calc:</strong> Field is radial. Flux through flat caps = 0 ($E \\perp dA$).<br>
-                            Flux through curved surface = $E \\times (2\\pi r l)$.</p>
-                            <p><strong>Charge Enclosed:</strong> $q = \\lambda l$.</p>
-                            <p><strong>Apply Law:</strong> $\\phi = q/\\epsilon_0 \\implies E(2\\pi r l) = \\lambda l / \\epsilon_0$.</p>
-                            <p><strong>Result:</strong> $E = \\frac{\\lambda}{2\\pi\\epsilon_0 r}$.</p>
-                        </div>
-                    `,
+                    a: "<strong>Goal:</strong> Field $E$ at distance $r$ from wire with density $\\lambda$.<br><br><strong>Gaussian Surface:</strong> Cylinder of radius $r$, length $l$.<br><br><strong>Flux Calc:</strong> Field is radial. Flux through flat caps = 0 ($E \\perp dA$).<br>Flux through curved surface = $E \\times (2\\pi r l)$.<br><br><strong>Charge Enclosed:</strong> $q = \\lambda l$.<br><br><strong>Apply Law:</strong> $\\phi = q/\\epsilon_0 \\implies E(2\\pi r l) = \\lambda l / \\epsilon_0$.<br><br><strong>Result:</strong> $E = \\frac{\\lambda}{2\\pi\\epsilon_0 r}$.",
                     twist: "<strong>Graph:</strong> $E \\propto 1/r$. The graph is a rectangular hyperbola."
                 },
                 {
                     q: "Moving Coil Galvanometer",
-                    a: `
-                        <div class="space-y-4 text-slate-300 text-sm leading-relaxed">
-                            <p><strong>Principle:</strong> Current carrying coil in magnetic field experiences torque $\\tau = NIAB\\sin\\theta$.</p>
-                            <p><strong>Radial Field:</strong> Using concave poles and soft iron core makes field radial ($\theta=90^{\\circ}$ always).<br>
-                            So, Deflecting Torque $\\tau_d = NIAB$.</p>
-                            <p><strong>Equilibrium:</strong> $\\tau_d = \\tau_r$ (Restoring torque $k\\alpha$).<br>
-                            $NIAB = k\\alpha \\implies \\alpha = (NAB/k)I$.</p>
-                            <p><strong>Result:</strong> Deflection $\\alpha \\propto I$ (Linear Scale).</p>
-                        </div>
-                    `,
+                    a: "<strong>Principle:</strong> Current carrying coil in magnetic field experiences torque $\\tau = NIAB\\sin\\theta$.<br><br><strong>Radial Field:</strong> Using concave poles and soft iron core makes field radial ($\theta=90^{\\circ}$ always).<br>So, Deflecting Torque $\\tau_d = NIAB$.<br><br><strong>Equilibrium:</strong> $\\tau_d = \\tau_r$ (Restoring torque $k\\alpha$).<br>$NIAB = k\\alpha \\implies \\alpha = (NAB/k)I$.<br><br><strong>Result:</strong> Deflection $\\alpha \\propto I$ (Linear Scale).",
                     twist: "<strong>Current Sensitivity:</strong> $S_i = \\alpha/I = NAB/k$. To increase sensitivity, increase $N, A, B$ or decrease $k$ (use Phosphor Bronze)."
                 }
             ]
         };
 
-        // --- 2. COMPREHENSIVE STUDY NOTES ---
+        // --- DATA: STUDY NOTES (ALL CHAPTERS) ---
         const studyData = [
             {
-                id: 'electro', title: 'Unit 1: Electrostatics', 
+                id: 'ch1', title: '1. Electric Charges & Fields', 
                 content: `
-                    <h2 class="text-3xl font-bold text-white mb-6">Electrostatics Master Notes</h2>
-                    <div class="space-y-8">
-                        <div class="bg-gray-900 p-6 rounded-xl border-l-4 border-blue-500">
-                            <h3 class="text-xl font-bold text-blue-400 mb-4">1. Electric Charges & Fields</h3>
-                            <ul class="list-disc list-inside text-slate-300 text-sm space-y-2">
-                                <li><strong>Coulomb's Law:</strong> $F = k q_1 q_2 / r^2$. Vector form uses unit vector $\\hat{r}$.</li>
-                                <li><strong>Electric Field:</strong> Point charge: $E = kQ/r^2$. Dipole Axis: $2kp/r^3$. Equator: $kp/r^3$.</li>
-                                <li><strong>Dipole Torque:</strong> $\\vec{\\tau} = \\vec{p} \\times \\vec{E} = pE\\sin\\theta$. Max at 90°. Stable at 0°.</li>
-                                <li><strong>Gauss Law:</strong> $\\oint E.dA = q_{in}/\\epsilon_0$.
-                                    <br>- Shell (Inside): $E=0$.
-                                    <br>- Shell (Outside): Behaves like point charge.
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="bg-gray-900 p-6 rounded-xl border-l-4 border-purple-500">
-                            <h3 class="text-xl font-bold text-purple-400 mb-4">2. Potential & Capacitance</h3>
-                            <ul class="list-disc list-inside text-slate-300 text-sm space-y-2">
-                                <li><strong>Potential (V):</strong> $V = kQ/r$. Scalar. Dipole: $kp\\cos\\theta/r^2$.</li>
-                                <li><strong>Relation E-V:</strong> $E = -dV/dr$. Field flows High to Low potential.</li>
-                                <li><strong>Capacitor:</strong> $C = \\epsilon_0 A / d$. With Dielectric: $C = K C_0$.</li>
-                                <li><strong>Energy:</strong> $U = 1/2 CV^2 = Q^2/2C = 1/2 QV$. Density: $1/2 \\epsilon_0 E^2$.</li>
-                            </ul>
-                        </div>
-                    </div>`
+                    <h3>Electric Charges & Fields</h3>
+                    <div class="formula-box">
+                        <strong>Coulomb's Law:</strong> $$ F = k \\frac{q_1 q_2}{r^2} $$ <br>
+                        <strong>Electric Field (Point Charge):</strong> $$ E = k \\frac{q}{r^2} $$ <br>
+                        <strong>Dipole Axis:</strong> $$ E_{axial} = \\frac{2kp}{r^3} $$ <br>
+                        <strong>Dipole Equator:</strong> $$ E_{eq} = \\frac{kp}{r^3} $$
+                    </div>
+                    <h4>Key Derivations</h4>
+                    <p><strong>1. Torque on Dipole:</strong> Force $qE$ and $-qE$ form a couple. Torque $\\tau = \\text{Force} \\times \\text{Perpendicular dist} = qE \\times 2a\\sin\\theta = pE\\sin\\theta$. Vector form: $\\vec{\\tau} = \\vec{p} \\times \\vec{E}$.</p>
+                    <p><strong>2. Gauss Law Applications:</strong></p>
+                    <ul>
+                        <li><strong>Infinite Wire:</strong> Gaussian surface is Cylinder. $$ E = \\frac{\\lambda}{2\\pi\\epsilon_0 r} $$</li>
+                        <li><strong>Infinite Sheet:</strong> Gaussian surface is Pillbox. $$ E = \\frac{\\sigma}{2\\epsilon_0} $$ (Independent of distance).</li>
+                        <li><strong>Spherical Shell:</strong> Inside $E=0$. Outside $E = kQ/r^2$.</li>
+                    </ul>
+                `
             },
             {
-                id: 'current', title: 'Unit 2: Current Electricity', 
+                id: 'ch2', title: '2. Potential & Capacitance', 
                 content: `
-                    <h2 class="text-3xl font-bold text-white mb-6">Current Electricity</h2>
-                    <div class="space-y-8">
-                        <div class="bg-gray-900 p-6 rounded-xl border-l-4 border-green-500">
-                            <h3 class="text-xl font-bold text-green-400 mb-4">Drift Velocity & Ohm's Law</h3>
-                            <p class="text-slate-300 text-sm mb-4"><strong>Drift Velocity:</strong> $v_d = eE\\tau/m$. Current $I = n e A v_d$.</p>
-                            <p class="text-slate-300 text-sm"><strong>Resistivity ($\rho$):</strong> $\\rho = m / (n e^2 \\tau)$. Depends on material & Temp (not dimensions).</p>
-                        </div>
-                        <div class="bg-gray-900 p-6 rounded-xl border-l-4 border-red-500">
-                            <h3 class="text-xl font-bold text-red-400 mb-4">Kirchhoff & Cells</h3>
-                            <ul class="list-disc list-inside text-slate-300 text-sm space-y-2">
-                                <li><strong>KCL (Junction):</strong> $\\sum I = 0$ (Conservation of Charge).</li>
-                                <li><strong>KVL (Loop):</strong> $\\sum \\Delta V = 0$ (Conservation of Energy). Path direction match current = $-IR$.</li>
-                                <li><strong>Wheatstone Bridge:</strong> Balanced if $P/Q = R/S$. No current in galvanometer.</li>
-                                <li><strong>Cells:</strong> Series ($E_{eq} = E_1+E_2$). Parallel ($E_{eq} = (E_1 r_2 + E_2 r_1)/(r_1+r_2)$).</li>
-                            </ul>
-                        </div>
-                    </div>`
+                    <h3>Potential & Capacitance</h3>
+                    <div class="formula-box">
+                        <strong>Potential (Point Charge):</strong> $$ V = k \\frac{q}{r} $$ <br>
+                        <strong>Relation E-V:</strong> $$ E = -\\frac{dV}{dr} $$ <br>
+                        <strong>Capacitance:</strong> $$ C = \\frac{\\epsilon_0 A}{d} $$ <br>
+                        <strong>Energy:</strong> $$ U = \\frac{1}{2} CV^2 $$
+                    </div>
+                    <h4>Key Concepts</h4>
+                    <p><strong>Equipotential Surfaces:</strong> Surfaces where potential is constant. Electric field is always perpendicular to them. For point charge, they are concentric spheres.</p>
+                    <p><strong>Effect of Dielectric (K):</strong></p>
+                    <ul>
+                        <li><strong>C:</strong> Increases by K times ($KC_0$).</li>
+                        <li><strong>If Battery Disconnected:</strong> Q constant, V decreases ($V/K$), U decreases ($U/K$).</li>
+                        <li><strong>If Battery Connected:</strong> V constant, Q increases ($KQ$), U increases ($KU$).</li>
+                    </ul>
+                `
             },
             {
-                id: 'magnetism', title: 'Unit 3: Magnetism', 
+                id: 'ch3', title: '3. Current Electricity', 
                 content: `
-                    <h2 class="text-3xl font-bold text-white mb-6">Magnetic Effects</h2>
-                    <div class="space-y-8">
-                        <div class="bg-gray-900 p-6 rounded-xl border-l-4 border-yellow-500">
-                            <h3 class="text-xl font-bold text-yellow-400 mb-4">Moving Charges</h3>
-                            <ul class="list-disc list-inside text-slate-300 text-sm space-y-2">
-                                <li><strong>Biot-Savart:</strong> $dB = \\frac{\\mu_0 I dl \\sin\\theta}{4\\pi r^2}$.</li>
-                                <li><strong>Ampere's Law:</strong> $\\oint B.dl = \\mu_0 I_{enc}$. Solenoid $B = \\mu_0 n I$.</li>
-                                <li><strong>Force on Charge:</strong> $F = q(v \\times B)$. Path is Circle if $v \\perp B$ ($r = mv/qB$). Helix if angle $\\theta$.</li>
-                                <li><strong>Force on Wire:</strong> $F = I(l \\times B)$. Parallel wires attract if currents parallel.</li>
-                            </ul>
-                        </div>
-                    </div>`
+                    <h3>Current Electricity</h3>
+                    <div class="formula-box">
+                        <strong>Drift Velocity:</strong> $$ v_d = \\frac{eE\\tau}{m} $$ <br>
+                        <strong>Current:</strong> $$ I = n e A v_d $$ <br>
+                        <strong>Resistivity:</strong> $$ \\rho = \\frac{m}{n e^2 \\tau} $$ (Depends on Temp, Material)
+                    </div>
+                    <h4>Kirchhoff's Laws</h4>
+                    <p><strong>Junction Rule:</strong> $\\sum I = 0$ (Conservation of Charge).</p>
+                    <p><strong>Loop Rule:</strong> $\\sum \\Delta V = 0$ (Conservation of Energy). Go with current = $-IR$, against current = $+IR$.</p>
+                    <h4>Wheatstone Bridge</h4>
+                    <p>Balanced when no current in galvanometer. Condition: $R_1/R_2 = R_3/R_4$.</p>
+                `
             },
             {
-                id: 'emi', title: 'Unit 4: EMI & AC', 
+                id: 'ch4', title: '4. Moving Charges & Magnetism', 
                 content: `
-                    <h2 class="text-3xl font-bold text-white mb-6">EMI & Alternating Current</h2>
-                    <div class="space-y-8">
-                        <div class="bg-gray-900 p-6 rounded-xl border-l-4 border-indigo-500">
-                            <h3 class="text-xl font-bold text-indigo-400 mb-4">AC Circuits</h3>
-                            <p class="text-slate-300 text-sm mb-2"><strong>LCR Series:</strong> Impedance $Z = \\sqrt{R^2 + (X_L - X_C)^2}$.</p>
-                            <p class="text-slate-300 text-sm mb-2"><strong>Resonance:</strong> $X_L = X_C \\implies \\omega = 1/\\sqrt{LC}$. Current max ($V/R$).</p>
-                            <p class="text-slate-300 text-sm"><strong>Power:</strong> $P = V_{rms} I_{rms} \\cos\\phi$. Power factor $\\cos\\phi = R/Z$.</p>
-                        </div>
-                    </div>`
+                    <h3>Moving Charges & Magnetism</h3>
+                    <div class="formula-box">
+                        <strong>Biot-Savart Law:</strong> $$ dB = \\frac{\\mu_0 I dl \\sin\\theta}{4\\pi r^2} $$ <br>
+                        <strong>Lorentz Force:</strong> $$ F = q(\\vec{v} \\times \\vec{B}) $$ <br>
+                        <strong>Ampere's Law:</strong> $$ \\oint B.dl = \\mu_0 I $$
+                    </div>
+                    <h4>Motion in B Field</h4>
+                    <p>If $v \\perp B$, path is Circular. Radius $r = mv/qB$. Period $T = 2\\pi m / qB$ (Independent of speed).</p>
+                    <h4>Force Between Parallel Wires</h4>
+                    <p>$$ F/l = \\frac{\\mu_0 I_1 I_2}{2\\pi d} $$. Parallel currents attract, anti-parallel repel. This defines the Ampere.</p>
+                `
             },
             {
-                id: 'optics', title: 'Unit 6: Optics', 
+                id: 'ch5', title: '5. Magnetism & Matter', 
                 content: `
-                    <h2 class="text-3xl font-bold text-white mb-6">Ray & Wave Optics</h2>
-                    <div class="space-y-8">
-                        <div class="bg-gray-900 p-6 rounded-xl border-l-4 border-pink-500">
-                            <h3 class="text-xl font-bold text-pink-400 mb-4">Wave Optics</h3>
-                            <ul class="list-disc list-inside text-slate-300 text-sm space-y-2">
-                                <li><strong>Huygens Principle:</strong> Every point on wavefront is source of secondary wavelets.</li>
-                                <li><strong>Interference (YDSE):</strong> Path diff $\\Delta x = n\\lambda$ (Bright), $(n-0.5)\\lambda$ (Dark).<br>Fringe Width $\\beta = \\lambda D / d$.</li>
-                                <li><strong>Diffraction (Single Slit):</strong> Central Max width = $2\\lambda D / a$. Minima at $a\\sin\\theta = n\\lambda$.</li>
-                            </ul>
-                        </div>
-                    </div>`
+                    <h3>Magnetism & Matter</h3>
+                    <div class="formula-box">
+                        <strong>Magnetic Moment:</strong> $M = NIA$ <br>
+                        <strong>Axial Field:</strong> $B = \\frac{\\mu_0}{4\\pi} \\frac{2M}{r^3}$
+                    </div>
+                    <h4>Magnetic Materials</h4>
+                    <ul>
+                        <li><strong>Diamagnetic:</strong> Repelled by magnets. $\\chi < 0$ (small negative). Example: Water, Cu.</li>
+                        <li><strong>Paramagnetic:</strong> Weakly attracted. $\\chi > 0$ (small positive). Example: Al, Na.</li>
+                        <li><strong>Ferromagnetic:</strong> Strongly attracted. $\\chi \gg 0$. Example: Fe, Ni, Co.</li>
+                    </ul>
+                `
             },
             {
-                id: 'modern', title: 'Unit 7-8: Modern Physics', 
+                id: 'ch6', title: '6. Electromagnetic Induction', 
                 content: `
-                    <h2 class="text-3xl font-bold text-white mb-6">Modern Physics</h2>
-                    <div class="space-y-8">
-                        <div class="bg-gray-900 p-6 rounded-xl border-l-4 border-cyan-500">
-                            <h3 class="text-xl font-bold text-cyan-400 mb-4">Dual Nature & Atoms</h3>
-                            <ul class="list-disc list-inside text-slate-300 text-sm space-y-2">
-                                <li><strong>Photoelectric:</strong> $K_{max} = h\\nu - \\phi_0$. Slope of V vs $\\nu$ is $h/e$.</li>
-                                <li><strong>De-Broglie:</strong> $\\lambda = h/p = h/\\sqrt{2mK} = 1.227/\\sqrt{V}$ nm (electron).</li>
-                                <li><strong>Bohr Model:</strong> $L = nh/2\\pi$. Radius $r \\propto n^2$. Energy $E \\propto -13.6/n^2$ eV.</li>
-                            </ul>
-                        </div>
-                    </div>`
+                    <h3>Electromagnetic Induction</h3>
+                    <div class="formula-box">
+                        <strong>Faraday's Law:</strong> $$ \\epsilon = -\\frac{d\\phi}{dt} $$ <br>
+                        <strong>Motional EMF:</strong> $$ \\epsilon = Blv $$ <br>
+                        <strong>Self Inductance:</strong> $$ \\epsilon = -L \\frac{dI}{dt} $$
+                    </div>
+                    <h4>Lenz's Law</h4>
+                    <p>The direction of induced current is such that it opposes the change in magnetic flux that produced it. (Conservation of Energy).</p>
+                    <h4>AC Generator</h4>
+                    <p>Principle: Coil rotates in B field. Flux $\\phi = BA\\cos(\\omega t)$. EMF $\\epsilon = -d\\phi/dt = NBA\\omega \\sin(\\omega t)$.</p>
+                `
+            },
+            {
+                id: 'ch7', title: '7. Alternating Current', 
+                content: `
+                    <h3>Alternating Current</h3>
+                    <div class="formula-box">
+                        <strong>RMS Value:</strong> $$ I_{rms} = I_0 / \\sqrt{2} $$ <br>
+                        <strong>Inductive Reactance:</strong> $$ X_L = \\omega L $$ <br>
+                        <strong>Capacitive Reactance:</strong> $$ X_C = 1/\\omega C $$ <br>
+                        <strong>Impedance:</strong> $$ Z = \\sqrt{R^2 + (X_L - X_C)^2} $$
+                    </div>
+                    <h4>Series LCR Circuit</h4>
+                    <p><strong>Resonance:</strong> Occurs when $X_L = X_C$. Current is maximum ($V/R$). Resonant frequency $\\omega_0 = 1/\\sqrt{LC}$.</p>
+                    <p><strong>Power Factor:</strong> $\\cos\\phi = R/Z$. For pure L or C, power is zero (Wattless current).</p>
+                    <p><strong>Transformer:</strong> $V_s/V_p = N_s/N_p$. Step-up increases Voltage, decreases Current.</p>
+                `
+            },
+            {
+                id: 'ch8', title: '8. Electromagnetic Waves', 
+                content: `
+                    <h3>Electromagnetic Waves</h3>
+                    <div class="formula-box">
+                        <strong>Speed:</strong> $$ c = \\frac{1}{\\sqrt{\\mu_0 \\epsilon_0}} = \\frac{E_0}{B_0} $$ <br>
+                        <strong>Energy Density:</strong> $$ u = \\frac{1}{2}\\epsilon_0 E^2 + \\frac{1}{2\\mu_0} B^2 $$
+                    </div>
+                    <h4>Spectrum (Low to High Freq)</h4>
+                    <p>Radio -> Microwave -> Infrared -> Visible -> UV -> X-Rays -> Gamma Rays.</p>
+                    <p><strong>Displacement Current:</strong> Current due to changing electric field. $I_d = \\epsilon_0 d\\phi_E/dt$.</p>
+                `
+            },
+            {
+                id: 'ch9', title: '9. Ray Optics', 
+                content: `
+                    <h3>Ray Optics</h3>
+                    <div class="formula-box">
+                        <strong>Mirror Formula:</strong> $$ 1/v + 1/u = 1/f $$ <br>
+                        <strong>Lens Formula:</strong> $$ 1/v - 1/u = 1/f $$ <br>
+                        <strong>Prism:</strong> $$ \\delta = i + e - A $$
+                    </div>
+                    <h4>Total Internal Reflection</h4>
+                    <p>Light travels from Denser to Rarer. Angle of incidence > Critical Angle ($i > i_c$). $\\sin(i_c) = 1/\\mu$. Application: Optical Fibers.</p>
+                    <h4>Optical Instruments</h4>
+                    <p><strong>Microscope:</strong> $M = m_o \\times m_e$. Final image Virtual, Inverted, Magnified.</p>
+                    <p><strong>Telescope:</strong> $M = f_o / f_e$. Objective has large aperture for brightness.</p>
+                `
+            },
+            {
+                id: 'ch10', title: '10. Wave Optics', 
+                content: `
+                    <h3>Wave Optics</h3>
+                    <div class="formula-box">
+                        <strong>Constructive (Bright):</strong> $\\Delta x = n\\lambda$ <br>
+                        <strong>Destructive (Dark):</strong> $\\Delta x = (n+0.5)\\lambda$ <br>
+                        <strong>Fringe Width:</strong> $$ \\beta = \\frac{\\lambda D}{d} $$
+                    </div>
+                    <h4>Huygens Principle</h4>
+                    <p>Each point on a wavefront is a source of secondary wavelets. The tangent to these wavelets gives the new wavefront.</p>
+                    <h4>Diffraction (Single Slit)</h4>
+                    <p>Central Maxima width: $2\\lambda D/a$. Condition for Minima: $a\\sin\\theta = n\\lambda$. (Note: "n" is integer, unlike interference).</p>
+                `
+            },
+            {
+                id: 'ch11', title: '11. Dual Nature', 
+                content: `
+                    <h3>Dual Nature of Radiation</h3>
+                    <div class="formula-box">
+                        <strong>Einstein Eq:</strong> $$ K_{max} = h\\nu - \\phi_0 $$ <br>
+                        <strong>De Broglie:</strong> $$ \\lambda = \\frac{h}{p} = \\frac{h}{\\sqrt{2mK}} $$
+                    </div>
+                    <h4>Photoelectric Effect</h4>
+                    <p><strong>Intensity:</strong> Affects Photocurrent (Linear graph).</p>
+                    <p><strong>Frequency:</strong> Affects Stopping Potential (Linear graph with intercept $\\phi_0$).</p>
+                    <p><strong>Slope of V vs Frequency graph:</strong> $h/e$ (Universal constant).</p>
+                `
+            },
+            {
+                id: 'ch12', title: '12. Atoms', 
+                content: `
+                    <h3>Atoms</h3>
+                    <div class="formula-box">
+                        <strong>Bohr Quantization:</strong> $$ L = mvr = \\frac{nh}{2\\pi} $$ <br>
+                        <strong>Energy:</strong> $$ E_n = -\\frac{13.6}{n^2} \\text{ eV} $$ <br>
+                        <strong>Radius:</strong> $$ r_n \\propto n^2 $$
+                    </div>
+                    <h4>Alpha Scattering</h4>
+                    <p>Most alphas pass straight (Atom is empty). Few deflect (Nucleus is tiny, heavy, positive). Impact parameter $b \propto \cot(\theta/2)$.</p>
+                `
+            },
+            {
+                id: 'ch13', title: '13. Nuclei', 
+                content: `
+                    <h3>Nuclei</h3>
+                    <div class="formula-box">
+                        <strong>Radius:</strong> $$ R = R_0 A^{1/3} $$ <br>
+                        <strong>Density:</strong> Constant (Independent of A). <br>
+                        <strong>Mass Defect:</strong> $$ \\Delta m = [Zm_p + (A-Z)m_n] - M_{nuc} $$
+                    </div>
+                    <h4>Binding Energy</h4>
+                    <p>Energy released when nucleus forms. $BE = \\Delta m c^2$. Higher BE/nucleon = More Stability (Fe-56 is max). Fusion (light nuclei) and Fission (heavy nuclei) both move towards higher BE/A.</p>
+                `
+            },
+            {
+                id: 'ch14', title: '14. Semiconductors', 
+                content: `
+                    <h3>Semiconductors</h3>
+                    <h4>Energy Bands</h4>
+                    <p><strong>Conductors:</strong> Overlapping bands. <strong>Insulators:</strong> Large gap ($>3eV$). <strong>Semiconductors:</strong> Small gap ($<3eV$).</p>
+                    <h4>p-n Junction</h4>
+                    <p><strong>Forward Bias:</strong> p to +ve. Barrier decreases. Current flows (mA).</p>
+                    <p><strong>Reverse Bias:</strong> p to -ve. Barrier increases. Negligible current ($\mu A$).</p>
+                    <h4>Rectifiers</h4>
+                    <p><strong>Half Wave:</strong> 1 Diode. Output freq = Input freq.</p>
+                    <p><strong>Full Wave:</strong> 2 Diodes (Center tap). Output freq = 2 $\\times$ Input freq.</p>
+                `
             }
         ];
 
@@ -478,26 +547,20 @@
             const s = blueprint[k];
             const c = document.getElementById('content-area');
             c.innerHTML = `<div class="grid grid-cols-1 md:grid-cols-3 gap-6 animate-fade-in">${
-                s.qs.map(q => `
-                    <button onclick="openQuestionModal('${q.t}', '${q.tip}')" class="text-left w-full glass-panel p-6 rounded-xl border border-gray-800 hover:border-${s.color}-500/50 transition-all group relative overflow-hidden">
-                        <div class="flex justify-between mb-2 z-10 relative"><span class="text-xs font-bold text-${s.color}-400 bg-${s.color}-900/20 px-2 py-1 rounded">Q${q.no}</span><span class="text-xs text-slate-500 font-bold uppercase">${q.ch}</span></div>
-                        <h4 class="text-white font-bold mb-2 z-10 relative group-hover:text-${s.color}-300">${q.t}</h4>
-                        <div class="text-xs text-slate-400 bg-black/30 p-2 rounded z-10 relative">💡 ${q.tip}</div>
-                        <div class="absolute inset-0 bg-${s.color}-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                    </button>
+                s.qs.map((q, i) => `
+                    <div class="glass-panel p-6 rounded-xl border border-gray-800 hover:border-${s.color}-500/50 transition-colors">
+                        <div class="flex justify-between mb-2"><span class="text-xs font-bold text-${s.color}-400 bg-${s.color}-900/20 px-2 py-1 rounded">Q${q.no}</span><span class="text-xs text-slate-500 font-bold uppercase">${q.ch}</span></div>
+                        <h4 class="text-white font-bold mb-2">${q.t}</h4>
+                        <p class="text-xs text-slate-400 bg-black/30 p-2 rounded">💡 ${q.tip}</p>
+                    </div>
                 `).join('')
             }</div>`;
-        }
-
-        function openQuestionModal(title, tip) {
-            // Simplified modal for blueprint questions (expandable in future)
-            openModal('hot-list'); // For now, defaulting to main Q&A. Ideally, map specific Qs.
         }
 
         function openModal(type) {
             document.getElementById('modal-backdrop').classList.remove('hidden');
             document.getElementById('modal-panel').classList.remove('hidden');
-            const data = qaDatabase[type] || qaDatabase['hot-list']; // Fallback
+            const data = qaDatabase[type] || qaDatabase['hot-list'];
             document.getElementById('modal-title').innerText = type === 'hot-list' ? '🔥 Most Probable Questions' : '⚡ High Frequency Questions';
             document.getElementById('modal-body').innerHTML = data.map(item => `
                 <div class="bg-gray-800/50 rounded-xl p-6 border border-gray-700 mb-4">
