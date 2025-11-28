@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CASE Physics 2025-26 Comprehensive Preparation Suite</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" xintegrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Chosen Palette: "Professional Dark Mode" -->
+    <!-- 
+        Background: #0B0E14 (Rich Black)
+        Surface: #151921 (Dark Slate)
+        Primary: #3B82F6 (Blue-500) - Intellectual, clear
+        Secondary: #6366F1 (Indigo-500) - Depth
+        Accent: #10B981 (Emerald-500) - Success metrics
+        Text: #E2E8F0 (Slate-200) - High contrast readability
+    -->
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0B0E14;
+            color: #E2E8F0;
+            overflow-x: hidden; /* Prevent horizontal scroll from animations */
+        }
+
+        h1, h2, h3, h4 {
+            letter-spacing: -0.025em;
+        }
+
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Refined Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #151921; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155; 
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569; 
+        }
+
+        /* Chart Container */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 300px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+
+        /* Advanced Card Styling & Hover Effects */
+        .glass-card {
+            background: rgba(21, 25, 33, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Springy transition */
+        }
+        
+        .glass-card:hover {
+            border-color: rgba(59, 130, 246, 0.6);
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: 0 10px 30px -10px rgba(59, 130, 246, 0.3);
+        }
+
+        /* Form Elements */
+        .form-input {
+            background-color: #0F1218;
+            border: 1px solid #2D3748;
+            color: #E2E8F0;
+            transition: all 0.3s ease;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #3B82F6;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+            background-color: #11141C;
+        }
+
+        /* Checkbox Styling */
+        .custom-checkbox:checked + div {
+            background-color: rgba(16, 185, 129, 0.15);
+            border-color: #10B981;
+        }
+        .custom-checkbox:checked + div .status-indicator {
+            background-color: #10B981;
+            box-shadow: 0 0 12px rgba(16, 185, 129, 0.6);
+            transform: scale(1.2);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #60A5FA 0%, #A78BFA 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% auto;
+            animation: gradientMove 5s ease infinite;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        .stagger-1 { animation-delay: 0.1s; }
+        .stagger-2 { animation-delay: 0.2s; }
+        .stagger-3 { animation-delay: 0.3s; }
+
+        /* Button Hover Effects */
+        .btn-interactive {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-interactive::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+        .btn-interactive:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        /* Modal Transitions */
+        .modal-enter {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+        .modal-enter-active {
+            opacity: 1;
+            transform: scale(1);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .modal-exit {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .modal-exit-active {
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+    </style>
+
+    <!-- Application Structure Plan: 
+        1. Executive Dashboard: High-level analytics of the syllabus (Weightage, Cognitive Domain).
+        2. Strategic Planner: Personal status tracking (Confidence, Revision logs).
+        3. Blueprint Explorer: Interactive breakdown of the exam pattern (Sections A-E).
+        4. Resource Hub: Curated lists of high-probability and frequently repeated questions.
+    -->
+    
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="min-h-screen flex flex-col antialiased">
+
+    <!-- Professional Header -->
+    <header class="border-b border-gray-800 bg-[#0B0E14]/95 sticky top-0 z-50 backdrop-blur-md transition-all duration-300" id="main-header">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-4 group cursor-pointer">
+                <div class="h-10 w-10 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20 group-hover:scale-110 transition-transform duration-300">
+                    <i class="fas fa-bolt text-white text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-white tracking-tight group-hover:text-blue-400 transition-colors">CASE Physics <span class="gradient-text">2025-26</span></h1>
+                    <p class="text-xs text-slate-400 uppercase tracking-widest font-medium">Exam Preparation Suite</p>
+                </div>
+            </div>
+            
+            <div class="hidden md:flex items-center gap-6">
+                <div class="flex flex-col items-end">
+                    <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Syllabus Coverage</span>
+                    <div class="flex items-center gap-3 mt-1 group">
+                        <div class="w-40 bg-gray-800 rounded-full h-2 overflow-hidden shadow-inner border border-gray-700">
+                            <div id="header-progress" class="bg-gradient-to-r from-blue-500 to-cyan-400 h-full rounded-full transition-all duration-1000 ease-out shadow-[0_0_10px_rgba(56,189,248,0.5)]" style="width: 0%"></div>
+                        </div>
+                        <span id="header-percent" class="text-sm font-bold text-blue-400 font-mono group-hover:scale-110 transition-transform">0%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Interface -->
+    <main class="flex-grow max-w-7xl mx-auto px-6 py-8 w-full">
+        
+        <!-- Strategic Insight Block -->
+        <div class="relative overflow-hidden rounded-2xl border border-gray-800 bg-[#11141C] p-8 mb-10 shadow-2xl animate-fade-in group hover:border-gray-700 transition-colors duration-500">
+            <div class="relative z-10">
+                <h2 class="text-3xl font-bold text-white mb-3 tracking-tight">Strategic Overview</h2>
+                <p class="text-slate-400 max-w-3xl leading-relaxed text-lg">
+                    This suite is engineered based on the <strong>2025-26 CBSE Sample Question Paper</strong> and official curriculum specifications. 
+                    Analytical data indicates a critical focus on <span class="text-pink-400 font-semibold border-b border-pink-400/30">Optics (18 Marks)</span> and <span class="text-indigo-400 font-semibold border-b border-indigo-400/30">Magnetic Effects (17 Marks)</span>, constituting 50% of the total assessment weightage. Prioritize these units for maximum yield.
+                </p>
+            </div>
+            <!-- Animated Background Glow -->
+            <div class="absolute top-0 right-0 w-96 h-96 bg-blue-600/10 blur-[120px] rounded-full pointer-events-none group-hover:bg-blue-600/15 transition-all duration-1000"></div>
+            <div class="absolute bottom-0 left-0 w-64 h-64 bg-indigo-600/10 blur-[100px] rounded-full pointer-events-none group-hover:bg-indigo-600/15 transition-all duration-1000"></div>
+        </div>
+
+        <!-- Personal Performance Tracker -->
+        <div class="glass-card rounded-2xl p-8 mb-12 animate-fade-in stagger-1">
+            <div class="flex justify-between items-center mb-8 border-b border-gray-800 pb-4">
+                 <h3 class="text-xl font-bold text-white flex items-center gap-3">
+                    <span class="flex items-center justify-center w-8 h-8 rounded-lg bg-indigo-500/20 text-indigo-400 border border-indigo-500/30">
+                        <i class="fas fa-chart-line text-sm"></i>
+                    </span>
+                    Performance Tracker
+                 </h3>
+                 <span class="text-[10px] font-mono font-bold text-indigo-300 bg-indigo-500/10 px-3 py-1.5 rounded-full border border-indigo-500/20 uppercase tracking-wider flex items-center gap-2">
+                    <i class="fas fa-save"></i> Auto-Sync Active
+                 </span>
+            </div>
+             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Confidence Metric -->
+                <div class="group">
+                     <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-3 group-hover:text-blue-400 transition-colors">Self-Assessed Confidence</label>
+                     <div class="relative">
+                        <select class="w-full form-input rounded-xl py-3 px-4 text-sm appearance-none cursor-pointer hover:border-blue-500/50" onchange="updateStatus('confidence', this.value)">
+                            <option value="low">Needs Improvement</option>
+                            <option value="medium">Intermediate</option>
+                            <option value="high">Advanced Proficiency</option>
+                        </select>
+                        <div class="absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none text-slate-500">
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </div>
+                     </div>
+                </div>
+                 <!-- Revision Log -->
+                 <div class="group">
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-3 group-hover:text-blue-400 transition-colors">Last Active Session</label>
+                    <input type="date" class="w-full form-input rounded-xl py-3 px-4 text-sm text-slate-300 cursor-pointer hover:border-blue-500/50" onchange="updateStatus('revisionDate', this.value)">
+                </div>
+                 <!-- Focus Directive -->
+                 <div class="group">
+                     <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-3 group-hover:text-blue-400 transition-colors">Current Objective</label>
+                     <div class="relative">
+                        <input type="text" placeholder="e.g., Optics Derivations" class="w-full form-input rounded-xl py-3 px-4 text-sm text-slate-300 placeholder-slate-600 hover:border-blue-500/50" onchange="updateStatus('focusArea', this.value)">
+                        <div class="absolute right-4 top-1/2 transform -translate-y-1/2 text-slate-600">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                     </div>
+                 </div>
+             </div>
+        </div>
+
+        <!-- Analytics Dashboard -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+            <!-- Unit Weightage Analysis -->
+            <div class="glass-card p-8 rounded-2xl animate-fade-in stagger-2 flex flex-col">
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <h3 class="text-xl font-bold text-white tracking-tight">Unit Weightage Distribution</h3>
+                        <p class="text-xs font-medium text-slate-500 mt-1 uppercase tracking-wide">Official 2025-26 Curriculum</p>
+                    </div>
+                    <div class="bg-blue-500/10 p-2 rounded-lg">
+                        <i class="fas fa-balance-scale text-blue-400"></i>
+                    </div>
+                </div>
+                <div class="chart-container flex-grow">
+                    <canvas id="weightageChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Cognitive Domain Breakdown -->
+            <div class="glass-card p-8 rounded-2xl animate-fade-in stagger-3 flex flex-col">
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <h3 class="text-xl font-bold text-white tracking-tight">Assessment Typology</h3>
+                        <p class="text-xs font-medium text-slate-500 mt-1 uppercase tracking-wide">Cognitive Difficulty Levels</p>
+                    </div>
+                    <div class="bg-emerald-500/10 p-2 rounded-lg">
+                        <i class="fas fa-brain text-emerald-400"></i>
+                    </div>
+                </div>
+                <div class="chart-container flex-grow">
+                    <canvas id="typologyChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Blueprint Navigator -->
+        <div class="border-b border-gray-800 mb-8 flex flex-col md:flex-row justify-between items-end gap-6 animate-fade-in stagger-2">
+            <nav class="flex space-x-2 overflow-x-auto w-full md:w-auto pb-1 hide-scrollbar" aria-label="Tabs" id="section-tabs">
+                <!-- JS Injected Tabs -->
+            </nav>
+            
+            <div class="flex gap-3 pb-2 w-full md:w-auto">
+                 <button onclick="toggleRepeatedList()" class="btn-interactive glass-card hover:bg-gray-800/80 px-5 py-2.5 rounded-xl text-xs font-bold text-amber-400 border border-amber-500/20 hover:border-amber-500/50 transition-all uppercase tracking-wide flex items-center gap-2 shadow-lg shadow-amber-900/10 flex-1 md:flex-none justify-center">
+                    <i class="fas fa-history text-sm"></i>
+                    <span>High Frequency</span>
+                </button>
+                <button onclick="toggleHotList()" class="btn-interactive glass-card hover:bg-gray-800/80 px-5 py-2.5 rounded-xl text-xs font-bold text-blue-400 border border-blue-500/20 hover:border-blue-500/50 transition-all uppercase tracking-wide flex items-center gap-2 shadow-lg shadow-blue-900/10 flex-1 md:flex-none justify-center">
+                    <i class="fas fa-crosshairs text-sm"></i>
+                    <span>Probable Questions</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Content Matrix -->
+        <div id="content-area" class="min-h-[400px]">
+            <!-- JS Injected Content -->
+        </div>
+
+        <!-- Modals -->
+        
+        <!-- High Probability Modal -->
+        <div id="hot-list-container" class="hidden fixed inset-0 z-[100] overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+            <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <div class="fixed inset-0 bg-black/90 backdrop-blur-md transition-opacity duration-300 ease-out opacity-0" id="hot-list-backdrop" aria-hidden="true" onclick="toggleHotList()"></div>
+                <div class="inline-block align-bottom bg-[#151921] border border-gray-700 rounded-2xl text-left overflow-hidden shadow-2xl transform transition-all duration-300 ease-out scale-95 opacity-0 sm:my-8 sm:align-middle sm:max-w-5xl sm:w-full" id="hot-list-panel">
+                    <div class="px-8 py-8">
+                        <div class="flex justify-between items-center mb-8 border-b border-gray-800 pb-6">
+                            <div>
+                                <h3 class="text-2xl font-bold text-white flex items-center gap-3">
+                                    <span class="flex items-center justify-center w-10 h-10 rounded-full bg-blue-500/10 text-blue-500 text-lg">
+                                        <i class="fas fa-crosshairs"></i>
+                                    </span>
+                                    High Probability Questions
+                                </h3>
+                                <p class="text-slate-400 text-sm mt-2 ml-14">Curated based on 2025-26 SQP analysis</p>
+                            </div>
+                            <button onclick="toggleHotList()" class="text-slate-500 hover:text-white transition-colors bg-gray-800 hover:bg-gray-700 rounded-full w-10 h-10 flex items-center justify-center">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-h-[65vh] overflow-y-auto pr-2 custom-scrollbar" id="hot-list-content"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+         <!-- High Frequency Modal -->
+         <div id="repeated-list-container" class="hidden fixed inset-0 z-[100] overflow-y-auto" aria-labelledby="modal-title-repeated" role="dialog" aria-modal="true">
+            <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <div class="fixed inset-0 bg-black/90 backdrop-blur-md transition-opacity duration-300 ease-out opacity-0" id="repeated-list-backdrop" aria-hidden="true" onclick="toggleRepeatedList()"></div>
+                <div class="inline-block align-bottom bg-[#151921] border border-gray-700 rounded-2xl text-left overflow-hidden shadow-2xl transform transition-all duration-300 ease-out scale-95 opacity-0 sm:my-8 sm:align-middle sm:max-w-5xl sm:w-full" id="repeated-list-panel">
+                    <div class="px-8 py-8">
+                        <div class="flex justify-between items-center mb-8 border-b border-gray-800 pb-6">
+                            <div>
+                                <h3 class="text-2xl font-bold text-white flex items-center gap-3">
+                                    <span class="flex items-center justify-center w-10 h-10 rounded-full bg-amber-500/10 text-amber-500 text-lg">
+                                        <i class="fas fa-history"></i>
+                                    </span>
+                                    High Frequency Questions
+                                </h3>
+                                <p class="text-slate-400 text-sm mt-2 ml-14">Most repeated concepts from the last 5 years</p>
+                            </div>
+                            <button onclick="toggleRepeatedList()" class="text-slate-500 hover:text-white transition-colors bg-gray-800 hover:bg-gray-700 rounded-full w-10 h-10 flex items-center justify-center">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-h-[65vh] overflow-y-auto pr-2 custom-scrollbar" id="repeated-list-content"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="border-t border-gray-800 bg-[#0B0E14] mt-12 py-10">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-xs text-slate-500 gap-4">
+            <div class="flex items-center gap-2">
+                <i class="fas fa-code text-blue-500"></i>
+                <p>CASE Exam Preparation Suite • Version 2.1</p>
+            </div>
+            <p class="font-mono bg-gray-900 px-3 py-1 rounded border border-gray-800">Aligned with CBSE 2025-26 Standards</p>
+        </div>
+    </footer>
+
+    <!-- Logic Engine -->
+    <script>
+        // --- Official Weightage Data (2025-26) ---
+        const weightageData = {
+            labels: ['Electrostatics & Current', 'Magnetism & AC', 'Optics & EM Waves', 'Modern Physics', 'Semiconductors'],
+            data: [16, 17, 18, 12, 7],
+            colors: ['#3B82F6', '#6366F1', '#EC4899', '#10B981', '#F59E0B']
+        };
+
+        const typologyData = {
+            labels: ['Recall & Understanding', 'Application', 'Analysis & Evaluation'],
+            data: [38, 32, 30],
+            colors: ['#3B82F6', '#8B5CF6', '#F43F5E']
+        };
+
+        // --- Question Databases ---
+        const mostProbableDB = [
+            {
+                unit: 'Electrostatics & Current Electricity',
+                questions: [
+                    "Derive expression for Capacitance of a parallel plate capacitor with a dielectric slab.",
+                    "Application of Gauss's Law: Electric field due to an infinite plane sheet.",
+                    "Kirchhoff's Laws: Numerical analysis using Loop Rule (sign convention critical).",
+                    "Principle of Potentiometer (Note: Verify syllabus retention vs Wheatstone Bridge focus)."
+                ]
+            },
+            {
+                unit: 'Magnetism & AC',
+                questions: [
+                    "Moving Coil Galvanometer: Principle, construction, and conversion to Ammeter/Voltmeter.",
+                    "AC Generator: Schematic diagram and derivation of Instantaneous EMF.",
+                    "Series LCR Circuit: Phasor diagram analysis, Impedance derivation, Resonance conditions.",
+                    "Ampere’s Circuital Law: Application to Solenoid field derivation."
+                ]
+            },
+            {
+                unit: 'Optics (Ray & Wave)',
+                questions: [
+                    "Lens Maker's Formula: Complete derivation ($1/f = (n-1)(1/R1 - 1/R2)$).",
+                    "Prism Formula: Derive refractive index relation $μ = sin((A+Dm)/2) / sin(A/2)$.",
+                    "Compound Microscope: Ray diagram and Magnification formula (Image formed at Near Point).",
+                    "Huygens' Principle: Wavefront geometric proof for Laws of Refraction/Reflection."
+                ]
+            },
+            {
+                unit: 'Modern Physics & Electronics',
+                questions: [
+                    "Bohr's Atomic Model: Postulates, Radius, and Energy Level derivations.",
+                    "Photoelectric Effect: Analysis of Intensity/Frequency vs Potential graphs.",
+                    "p-n Junction Diode: Full Wave Rectifier circuit operation and waveform analysis.",
+                    "Nuclear Physics: Mass Defect calculation and Binding Energy curve analysis."
+                ]
+            }
+        ];
+
+         const mostRepeatedDB = [
+            {
+                unit: 'Electrostatics & Current',
+                questions: [
+                    "Electric Dipole: Definition and Field derivation on Equatorial Line.",
+                    "Gauss's Law: Statement and derivation for Uniformly Charged Spherical Shell.",
+                    "Drift Velocity: Derivation of relationship with Current ($I = neAv_d$).",
+                    "Wheatstone Bridge: Principle and derivation of balanced condition."
+                ]
+            },
+            {
+                unit: 'Magnetism & AC',
+                questions: [
+                    "Biot-Savart Law: Magnetic field derivation on the axis of a circular current loop.",
+                    "Force between parallel current-carrying conductors: Definition of Ampere.",
+                    "Transformer: Operating principle, Construction, Efficiency, and Energy Losses.",
+                    "Inductance: Definition of Self/Mutual Inductance and factors affecting them."
+                ]
+            },
+            {
+                unit: 'Optics',
+                questions: [
+                    "Refraction at Spherical Surfaces: Derivations.",
+                    "Young's Double Slit Experiment (YDSE): Conditions for Constructive/Destructive Interference.",
+                    "Astronomical Telescope: Ray diagram (Normal Adjustment) and Magnification.",
+                    "Total Internal Reflection (TIR): Critical Angle derivation and optical fiber application."
+                ]
+            },
+            {
+                unit: 'Modern Physics',
+                questions: [
+                    "Einstein's Photoelectric Equation: Derivation and explanation.",
+                    "Rutherford's Alpha Scattering: Experiment observations and Nuclear Model conclusions.",
+                    "Radioactivity: Relation between Half-Life and Mean-Life.",
+                    "Semiconductors: Distinction between Intrinsic and Extrinsic types (Energy Bands)."
+                ]
+            }
+        ];
+
+        // --- Strategic Blueprint Data ---
+        const blueprintData = {
+            sections: [
+                {
+                    id: 'E',
+                    label: 'Section E (Long Answer)',
+                    desc: 'Comprehensive Derivations & Theoretical Analysis. Internal choices available. 15 Marks.',
+                    color: 'indigo',
+                    icon: 'fa-book-open',
+                    questions: [
+                        {
+                            no: 31,
+                            chapter: 'Electrostatics',
+                            topic: 'Capacitance with Dielectric (Derivation) OR System Potential Energy',
+                            tips: '2025 SQP emphasizes Dielectric derivation. Master V vs d graphs.',
+                            studied: false
+                        },
+                        {
+                            no: 32,
+                            chapter: 'Ray Optics',
+                            topic: 'Lens Maker Formula OR Prism Formula',
+                            tips: 'High probability derivation. Ensure diagrams are fully labeled with sign convention.',
+                            studied: false
+                        },
+                        {
+                            no: 33,
+                            chapter: 'Devices',
+                            topic: 'Moving Coil Galvanometer OR Transformer',
+                            tips: 'Focus on operational principles, construction details, and energy loss mechanisms.',
+                            studied: false
+                        }
+                    ]
+                },
+                {
+                    id: 'D',
+                    label: 'Section D (Case Study)',
+                    desc: 'Applied Physics & Data Interpretation. 8 Marks.',
+                    color: 'emerald',
+                    icon: 'fa-microscope',
+                    questions: [
+                        {
+                            no: 29,
+                            chapter: 'Semiconductors',
+                            topic: 'p-n Junction Biasing / Rectifier Circuits',
+                            tips: 'Analyze circuit diagrams with ideal vs non-ideal diodes. Practical application focus.',
+                            studied: false
+                        },
+                        {
+                            no: 30,
+                            chapter: 'Dual Nature',
+                            topic: 'Photoelectric Effect Experimental Data',
+                            tips: 'Interpret graphs of Stopping Potential vs Frequency/Intensity accurately.',
+                            studied: false
+                        }
+                    ]
+                },
+                {
+                    id: 'C',
+                    label: 'Section C (Short Answer)',
+                    desc: 'Conceptual Analysis & Mathematical Derivations. 21 Marks.',
+                    color: 'amber',
+                    icon: 'fa-pencil-ruler',
+                    questions: [
+                        { no: 22, chapter: 'Semiconductors', topic: 'Full Wave Rectifier (Circuit + Waveforms)', tips: 'Mandatory diagram practice. Explicitly asked in SQP.', studied: false },
+                        { no: 23, chapter: 'Current Elec', topic: 'Kirchhoff Laws / Wheatstone Bridge', tips: 'Solve complex circuit problems daily.', studied: false },
+                        { no: 24, chapter: 'Nuclei', topic: 'Binding Energy / Fission Numericals', tips: 'Calculation intensive. Practice MeV unit conversions.', studied: false },
+                        { no: 25, chapter: 'Ray Optics', topic: 'Optical Instruments (Microscope/Telescope)', tips: 'Ray diagrams carry significant partial credit.', studied: false },
+                        { no: 26, chapter: 'Wave Optics', topic: 'Huygens Principle', tips: 'Geometric proof of Reflection/Refraction laws.', studied: false },
+                        { no: 27, chapter: 'Magnetism', topic: 'Charged Particle Motion / Solenoid', tips: 'Formulas for Radius, Time Period, and Helical Pitch.', studied: false },
+                        { no: 28, chapter: 'EMI', topic: 'AC Generator / Motional EMF', tips: 'Peak EMF calculation principles.', studied: false }
+                    ]
+                },
+                {
+                    id: 'B',
+                    label: 'Section B (Very Short)',
+                    desc: 'Definitions, Principles & Introductory Numericals. 10 Marks.',
+                    color: 'blue',
+                    icon: 'fa-info-circle',
+                    questions: [
+                        { no: 17, chapter: 'EM Waves', topic: 'E & B Field Relations / Properties', studied: false },
+                        { no: 18, chapter: 'Current Elec', topic: 'Cell EMF vs Internal Resistance (Graphs)', studied: false },
+                        { no: 19, chapter: 'Electrostatics', topic: 'Gauss Law Applications (Flux)', studied: false },
+                        { no: 20, chapter: 'Magnetism', topic: 'Parallel Conductor Force (Ampere Definition)', studied: false },
+                        { no: 21, chapter: 'Modern Physics', topic: 'Alpha Scattering / de Broglie Wavelength', studied: false }
+                    ]
+                },
+                {
+                    id: 'A',
+                    label: 'Section A (MCQ)',
+                    desc: 'Objective Assessment & Reasoning. 16 Marks.',
+                    color: 'slate',
+                    icon: 'fa-check-double',
+                    questions: [
+                        { no: '1-12', chapter: 'Comprehensive', topic: 'Conceptual Multiple Choice Questions', studied: false },
+                        { no: '13-16', chapter: 'Comprehensive', topic: 'Assertion-Reasoning Logic', studied: false }
+                    ]
+                }
+            ]
+        };
+
+        let currentSectionId = 'E';
+
+        function initApp() {
+            renderCharts();
+            renderTabs();
+            renderContent(currentSectionId);
+            renderHotList();
+            renderRepeatedList();
+            updateProgress();
+            loadStatus();
+        }
+
+        function renderTabs() {
+            const tabsContainer = document.getElementById('section-tabs');
+            tabsContainer.innerHTML = '';
+            blueprintData.sections.forEach(section => {
+                const btn = document.createElement('button');
+                const isActive = section.id === currentSectionId;
+                btn.className = `whitespace-nowrap py-2.5 px-5 text-xs font-bold rounded-xl transition-all duration-300 uppercase tracking-wide border flex items-center gap-2 transform hover:scale-105 ${
+                    isActive 
+                    ? 'bg-blue-600 border-blue-500 text-white shadow-lg shadow-blue-500/30' 
+                    : 'bg-[#151921] border-gray-800 text-slate-400 hover:border-gray-600 hover:text-slate-200'
+                }`;
+                // Use FontAwesome icons if available, or fallback to text labels
+                const icon = section.icon || 'fa-folder'; 
+                btn.innerHTML = `<i class="fas ${icon}"></i> <span>${section.label}</span>`;
+                
+                btn.onclick = () => {
+                    currentSectionId = section.id;
+                    renderTabs();
+                    renderContent(currentSectionId);
+                };
+                tabsContainer.appendChild(btn);
+            });
+        }
+
+        function renderContent(sectionId) {
+            const container = document.getElementById('content-area');
+            const section = blueprintData.sections.find(s => s.id === sectionId);
+            
+            // Animation reset technique
+            container.classList.remove('animate-fade-in');
+            void container.offsetWidth; // trigger reflow
+            container.classList.add('animate-fade-in');
+
+            let html = `
+                <div class="mb-8 flex items-end justify-between">
+                    <div>
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="h-8 w-1 bg-${section.color}-500 rounded-full shadow-[0_0_10px_rgba(var(--color-${section.color}),0.5)]"></div>
+                            <h2 class="text-3xl font-bold text-white tracking-tight">${section.label}</h2>
+                        </div>
+                        <p class="text-slate-400 text-sm ml-4 border-l border-gray-800 pl-4">${section.desc}</p>
+                    </div>
+                    <span class="px-4 py-1.5 rounded-lg bg-gray-800/80 text-xs font-mono text-slate-300 border border-gray-700 flex items-center gap-2 shadow-lg">
+                        <i class="fas fa-layer-group text-${section.color}-400"></i>
+                        ${section.questions.length} Items
+                    </span>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            `;
+
+            section.questions.forEach((q, index) => {
+                const delayClass = `stagger-${(index % 3) + 1}`;
+                html += `
+                    <label class="group relative glass-card p-6 rounded-2xl cursor-pointer flex flex-col h-full border border-gray-800 hover:border-${section.color}-500/50 transition-all duration-300 animate-fade-in ${delayClass}">
+                        <input type="checkbox" class="sr-only custom-checkbox" 
+                            onchange="toggleStudy('${sectionId}', ${index})" 
+                            ${q.studied ? 'checked' : ''}>
+                        
+                        <div class="absolute top-0 right-0 p-5 z-20">
+                            <div class="status-indicator w-4 h-4 rounded-full bg-gray-800 border border-gray-600 transition-all duration-300 flex items-center justify-center">
+                                <i class="fas fa-check text-[10px] text-white opacity-0 transition-opacity duration-200 group-checked:opacity-100"></i>
+                            </div>
+                        </div>
+
+                        <div class="mb-auto relative z-10">
+                            <div class="flex items-center gap-3 mb-5">
+                                <span class="font-mono text-xs font-bold text-${section.color}-400 bg-${section.color}-500/10 px-2.5 py-1 rounded-md border border-${section.color}-500/20 shadow-sm">
+                                    Q${q.no}
+                                </span>
+                                <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest border-b border-transparent group-hover:border-${section.color}-500/30 transition-all">${q.chapter}</span>
+                            </div>
+                            <h3 class="text-lg font-semibold text-slate-200 mb-4 group-hover:text-white transition-colors leading-snug group-hover:translate-x-1 duration-300">${q.topic}</h3>
+                            ${q.tips ? `
+                                <div class="relative overflow-hidden rounded-lg bg-[#0F1218] border border-gray-800 p-3 group-hover:border-${section.color}-500/20 transition-colors">
+                                    <div class="absolute left-0 top-0 bottom-0 w-1 bg-${section.color}-500/50"></div>
+                                    <p class="text-xs text-slate-400 leading-relaxed pl-2 relative z-10">
+                                        <i class="fas fa-lightbulb text-yellow-500/80 mr-1.5"></i> ${q.tips}
+                                    </p>
+                                </div>
+                            ` : ''}
+                        </div>
+                        
+                        <div class="mt-6 pt-4 border-t border-gray-800 flex justify-between items-center relative z-10">
+                            <span class="text-[10px] font-bold uppercase tracking-widest ${q.studied ? 'text-emerald-400' : 'text-slate-600 group-hover:text-slate-400'} transition-colors flex items-center gap-2">
+                                <i class="fas ${q.studied ? 'fa-check-circle' : 'fa-circle'} text-[8px]"></i>
+                                ${q.studied ? 'COMPLETED' : 'PENDING'}
+                            </span>
+                        </div>
+                        
+                        <!-- Hover Glow Effect -->
+                        <div class="absolute inset-0 bg-gradient-to-br from-${section.color}-500/0 to-${section.color}-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                    </label>
+                `;
+            });
+            html += `</div>`;
+            container.innerHTML = html;
+        }
+
+        function toggleStudy(sectionId, qIndex) {
+            const section = blueprintData.sections.find(s => s.id === sectionId);
+            section.questions[qIndex].studied = !section.questions[qIndex].studied;
+            renderContent(sectionId);
+            updateProgress();
+        }
+
+        function updateProgress() {
+            let totalQ = 0;
+            let studiedQ = 0;
+            blueprintData.sections.forEach(s => {
+                s.questions.forEach(q => {
+                    totalQ++;
+                    if(q.studied) studiedQ++;
+                });
+            });
+            const percent = Math.round((studiedQ / totalQ) * 100);
+            document.getElementById('header-progress').style.width = `${percent}%`;
+            document.getElementById('header-percent').textContent = `${percent}%`;
+        }
+
+        function toggleModal(modalId, backdropId, panelId) {
+            const modal = document.getElementById(modalId);
+            const backdrop = document.getElementById(backdropId);
+            const panel = document.getElementById(panelId);
+            
+            if (modal.classList.contains('hidden')) {
+                // Open
+                modal.classList.remove('hidden');
+                // Trigger reflow
+                void modal.offsetWidth;
+                
+                requestAnimationFrame(() => {
+                    backdrop.classList.remove('opacity-0');
+                    panel.classList.remove('scale-95', 'opacity-0');
+                    panel.classList.add('scale-100', 'opacity-100');
+                });
+            } else {
+                // Close
+                backdrop.classList.add('opacity-0');
+                panel.classList.remove('scale-100', 'opacity-100');
+                panel.classList.add('scale-95', 'opacity-0');
+                
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                }, 300);
+            }
+        }
+
+        function toggleHotList() {
+            toggleModal('hot-list-container', 'hot-list-backdrop', 'hot-list-panel');
+        }
+
+        function toggleRepeatedList() {
+            toggleModal('repeated-list-container', 'repeated-list-backdrop', 'repeated-list-panel');
+        }
+
+        function renderListContent(data, containerId, accentColor) {
+            const container = document.getElementById(containerId);
+            let html = '';
+            data.forEach(unit => {
+                html += `
+                    <div class="bg-[#0B0E14] rounded-xl p-6 border border-gray-800 hover:border-${accentColor}-500/30 transition-all duration-300 group">
+                        <h4 class="text-${accentColor}-400 font-bold text-xs uppercase tracking-widest mb-5 border-b border-gray-800 pb-3 flex items-center justify-between">
+                            ${unit.unit}
+                            <i class="fas fa-chevron-right text-gray-800 group-hover:text-${accentColor}-500/50 transition-colors"></i>
+                        </h4>
+                        <ul class="space-y-4">
+                            ${unit.questions.map(q => `
+                                <li class="flex items-start gap-4 text-slate-300 text-sm leading-relaxed group/item hover:bg-gray-900/50 p-2 rounded-lg transition-colors -mx-2">
+                                    <span class="text-gray-600 mt-1 group-hover/item:text-${accentColor}-500 transition-colors transform group-hover/item:translate-x-1 duration-200">
+                                        <i class="fas fa-arrow-right text-xs"></i>
+                                    </span>
+                                    <span class="group-hover/item:text-slate-100 transition-colors">${q}</span>
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function renderHotList() {
+            renderListContent(mostProbableDB, 'hot-list-content', 'blue');
+        }
+
+        function renderRepeatedList() {
+            renderListContent(mostRepeatedDB, 'repeated-list-content', 'amber');
+        }
+
+        function updateStatus(key, value) {
+            localStorage.setItem(`casePhysics_${key}`, value);
+        }
+
+        function loadStatus() {
+            const confidence = localStorage.getItem('casePhysics_confidence');
+            const revisionDate = localStorage.getItem('casePhysics_revisionDate');
+            const focusArea = localStorage.getItem('casePhysics_focusArea');
+
+            if (confidence) document.querySelector(`select[onchange="updateStatus('confidence', this.value)"]`).value = confidence;
+            if (revisionDate) document.querySelector(`input[onchange="updateStatus('revisionDate', this.value)"]`).value = revisionDate;
+            if (focusArea) document.querySelector(`input[onchange="updateStatus('focusArea', this.value)"]`).value = focusArea;
+        }
+
+        function renderCharts() {
+            const chartDefaults = {
+                color: '#94a3b8',
+                font: { family: "'Inter', sans-serif", size: 11 }
+            };
+            Chart.defaults.color = chartDefaults.color;
+            Chart.defaults.font = chartDefaults.font;
+
+            // Chart 1: Weightage
+            new Chart(document.getElementById('weightageChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: weightageData.labels,
+                    datasets: [{
+                        label: 'Marks',
+                        data: weightageData.data,
+                        backgroundColor: weightageData.colors,
+                        borderRadius: 6,
+                        barThickness: 28,
+                        hoverBackgroundColor: weightageData.colors.map(c => c + 'DD') // Slightly transparent on hover
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: {
+                        duration: 1500,
+                        easing: 'easeOutQuart'
+                    },
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { 
+                            grid: { color: '#1e293b', borderDash: [5, 5] }, 
+                            beginAtZero: true,
+                            ticks: { padding: 10 }
+                        },
+                        x: { 
+                            grid: { display: false },
+                            ticks: { autoSkip: false, maxRotation: 45, minRotation: 0 }
+                        }
+                    }
+                }
+            });
+
+            // Chart 2: Typology
+            new Chart(document.getElementById('typologyChart').getContext('2d'), {
+                type: 'doughnut',
+                data: {
+                    labels: typologyData.labels,
+                    datasets: [{
+                        data: typologyData.data,
+                        backgroundColor: typologyData.colors,
+                        borderWidth: 0,
+                        hoverOffset: 20
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '75%',
+                    animation: {
+                        animateScale: true,
+                        animateRotate: true,
+                        duration: 1500,
+                        easing: 'easeOutCirc'
+                    },
+                    plugins: {
+                        legend: { position: 'bottom', labels: { usePointStyle: true, padding: 25, pointStyle: 'circle' } }
+                    }
+                }
+            });
+        }
+
+        window.onload = initApp;
+    </script>
+</body>
+</html>
