@@ -12,8 +12,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- MathJax -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
-    <!-- Chosen Palette: "Professional Dark Mode" -->
+    <!-- Palette -->
     <style>
         :root {
             --bg-primary: #0B0E14;
@@ -31,52 +34,28 @@
             overflow-x: hidden;
         }
 
-        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: var(--bg-secondary); }
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #475569; }
 
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
         
-        @keyframes slideIn {
-            from { transform: translateX(20px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
+        @keyframes slideIn { from { transform: translateX(20px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
         .animate-slide-in { animation: slideIn 0.4s ease-out forwards; }
 
-        /* Glassmorphism */
         .glass-panel {
             background: rgba(21, 25, 33, 0.7);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        /* Interactive Elements */
-        .card-hover {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+        .card-hover { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         .card-hover:hover {
             transform: translateY(-4px);
             border-color: rgba(59, 130, 246, 0.5);
             box-shadow: 0 10px 30px -10px rgba(59, 130, 246, 0.2);
-        }
-
-        /* Answers Accordion Transition */
-        .answer-content {
-            transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out;
-            max-height: 0;
-            opacity: 0;
-            overflow: hidden;
-        }
-        .answer-content.open {
-            max-height: 2000px; /* Large height for long content */
-            opacity: 1;
         }
 
         .gradient-text {
@@ -85,15 +64,14 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* Checkbox Custom */
         .custom-checkbox:checked + div {
             background-color: rgba(16, 185, 129, 0.2);
             border-color: #10B981;
         }
-        .custom-checkbox:checked + div i {
-            opacity: 1;
-            transform: scale(1);
-        }
+        .custom-checkbox:checked + div i { opacity: 1; transform: scale(1); }
+        
+        /* MathJax Adjustments */
+        mjx-container { font-size: 110% !important; color: #E2E8F0 !important; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -112,795 +90,461 @@
             </div>
             
             <div class="hidden md:flex items-center gap-6">
-                <!-- Navigation Links -->
                 <nav class="flex gap-1 bg-gray-900 p-1 rounded-lg">
                     <button onclick="switchView('dashboard')" id="nav-dashboard" class="px-4 py-1.5 text-sm font-medium rounded-md text-white bg-gray-800 shadow-sm transition-all">Dashboard</button>
                     <button onclick="switchView('study-zone')" id="nav-study-zone" class="px-4 py-1.5 text-sm font-medium rounded-md text-slate-400 hover:text-white transition-all">Study Zone 📚</button>
                 </nav>
-
-                <div class="h-6 w-px bg-gray-800"></div>
-
-                <div class="flex flex-col items-end">
-                    <div class="flex items-center gap-2">
-                        <span class="text-xs font-semibold text-slate-400">MASTERY</span>
-                        <span id="header-percent" class="text-sm font-bold text-blue-400 font-mono">0%</span>
-                    </div>
-                    <div class="w-32 bg-gray-800 rounded-full h-1.5 mt-1 overflow-hidden">
-                        <div id="header-progress" class="bg-blue-500 h-full rounded-full transition-all duration-700" style="width: 0%"></div>
-                    </div>
-                </div>
             </div>
         </div>
     </header>
 
-    <!-- Main Content Container -->
+    <!-- Main Content -->
     <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full relative">
 
         <!-- VIEW: DASHBOARD -->
         <div id="view-dashboard" class="space-y-12 animate-fade-in">
-            
-            <!-- Hero / Status Section -->
+            <!-- Hero -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Context Card -->
                 <div class="lg:col-span-2 relative overflow-hidden rounded-2xl border border-gray-800 bg-gradient-to-br from-gray-900 to-[#0F1218] p-8 shadow-2xl">
                     <div class="relative z-10">
-                        <h2 class="text-3xl font-bold text-white mb-2">Pre-Board Strategy Center</h2>
+                        <h2 class="text-3xl font-bold text-white mb-2">Exam Strategy Center</h2>
                         <p class="text-slate-400 text-lg leading-relaxed">
-                            Targeting <strong>70/70</strong>. Based on the strict 2025-26 Blueprint. 
-                            <br><span class="text-blue-400 font-semibold">Focus:</span> Optics (18M) & Magnetism (17M) are your winning zones.
+                            Targeting <strong>70/70</strong>. Based on 2025-26 Blueprint. 
+                            <br><span class="text-blue-400 font-semibold">Priority:</span> Electrostatics, Optics & Magnetism.
                         </p>
                     </div>
-                    <div class="absolute right-0 top-0 h-64 w-64 bg-blue-500/10 blur-[100px] rounded-full pointer-events-none"></div>
                 </div>
 
-                <!-- Quick Actions -->
                 <div class="glass-panel p-6 rounded-2xl flex flex-col justify-center gap-4">
                     <button onclick="openModal('hot-list')" class="group w-full py-4 px-6 rounded-xl bg-gradient-to-r from-blue-600/20 to-indigo-600/20 border border-blue-500/30 hover:border-blue-400 transition-all flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <span class="bg-blue-500/20 p-2 rounded-lg text-blue-400"><i class="fas fa-fire"></i></span>
-                            <div class="text-left">
-                                <div class="text-sm font-bold text-white">Most Probable Qs</div>
-                                <div class="text-xs text-blue-300">With Model Answers</div>
-                            </div>
-                        </div>
+                        <div class="text-left"><div class="text-sm font-bold text-white">🔥 Most Probable Qs</div><div class="text-xs text-blue-300">With Detailed Answers</div></div>
                         <i class="fas fa-chevron-right text-blue-500/50 group-hover:translate-x-1 transition-transform"></i>
                     </button>
-
                     <button onclick="openModal('repeated-list')" class="group w-full py-4 px-6 rounded-xl bg-gradient-to-r from-amber-600/20 to-orange-600/20 border border-amber-500/30 hover:border-amber-400 transition-all flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <span class="bg-amber-500/20 p-2 rounded-lg text-amber-400"><i class="fas fa-history"></i></span>
-                            <div class="text-left">
-                                <div class="text-sm font-bold text-white">High Frequency</div>
-                                <div class="text-xs text-amber-300">Past 5 Years Repeated</div>
-                            </div>
-                        </div>
+                        <div class="text-left"><div class="text-sm font-bold text-white">⚡ High Frequency</div><div class="text-xs text-amber-300">Repeated Concepts</div></div>
                         <i class="fas fa-chevron-right text-amber-500/50 group-hover:translate-x-1 transition-transform"></i>
                     </button>
                 </div>
             </div>
 
-            <!-- Blueprint Explorer Tabs -->
+            <!-- Blueprint Explorer -->
             <div>
-                <div class="flex overflow-x-auto gap-2 pb-4 border-b border-gray-800 mb-6" id="section-tabs">
-                    <!-- Tabs Injected via JS -->
-                </div>
-                
-                <!-- Dynamic Question Cards -->
-                <div id="content-area" class="min-h-[300px]">
-                    <!-- Cards Injected via JS -->
-                </div>
+                <div class="flex overflow-x-auto gap-2 pb-4 border-b border-gray-800 mb-6" id="section-tabs"></div>
+                <div id="content-area" class="min-h-[300px]"></div>
             </div>
 
-            <!-- Analytics Row -->
+            <!-- Analytics -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div class="glass-panel p-6 rounded-2xl">
-                    <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2"><i class="fas fa-chart-pie text-blue-500"></i> Unit Weightage</h3>
-                    <div class="chart-container">
-                        <canvas id="weightageChart"></canvas>
-                    </div>
+                    <h3 class="text-lg font-bold text-white mb-4">Unit Weightage</h3>
+                    <div class="chart-container"><canvas id="weightageChart"></canvas></div>
                 </div>
                 <div class="glass-panel p-6 rounded-2xl">
-                    <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2"><i class="fas fa-brain text-purple-500"></i> Cognitive Breakdown</h3>
-                    <div class="chart-container">
-                        <canvas id="typologyChart"></canvas>
-                    </div>
+                    <h3 class="text-lg font-bold text-white mb-4">Cognitive Breakdown</h3>
+                    <div class="chart-container"><canvas id="typologyChart"></canvas></div>
                 </div>
             </div>
 
-            <!-- Resource Archive Section -->
-            <div class="mt-16 mb-12 animate-fade-in">
-                <div class="flex items-center gap-3 mb-6">
-                    <div class="h-8 w-1 bg-purple-500 rounded-full shadow-[0_0_10px_rgba(168,85,247,0.5)]"></div>
-                    <h2 class="text-2xl font-bold text-white tracking-tight">Resource Archive</h2>
-                </div>
-                
+            <!-- Resources -->
+            <div class="mt-16 mb-12">
+                <h2 class="text-2xl font-bold text-white mb-6">Resource Archive</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <!-- 2025-26 SQP Card -->
-                    <a href="Physics-SQP 2025.pdf" target="_blank" class="group relative glass-panel p-6 rounded-2xl cursor-pointer border border-gray-800 hover:border-purple-500/50 transition-all duration-300 flex flex-col items-center text-center">
-                        <div class="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                            <i class="fas fa-file-pdf text-purple-400 text-xl"></i>
-                        </div>
-                        <h3 class="text-white font-bold mb-1">CBSE SQP 2025-26</h3>
-                        <p class="text-xs text-slate-400 mb-4">Official Sample Paper</p>
-                        <span class="text-xs font-mono text-purple-400 border border-purple-500/20 px-3 py-1 rounded bg-purple-500/5 group-hover:bg-purple-500/10 transition-colors">DOWNLOAD PDF</span>
+                    <a href="Physics-SQP 2025.pdf" target="_blank" class="glass-panel p-6 rounded-2xl border border-gray-800 hover:border-purple-500/50 transition-all text-center">
+                        <i class="fas fa-file-pdf text-purple-400 text-3xl mb-4"></i>
+                        <h3 class="text-white font-bold text-sm">CBSE SQP 2025-26</h3>
+                        <span class="text-xs text-purple-400 mt-2 block">DOWNLOAD</span>
                     </a>
-
-                    <!-- 2024 CASE Set A Card -->
-                    <a href="PHYSICS CASE QP 2024-SET A.pdf" target="_blank" class="group relative glass-panel p-6 rounded-2xl cursor-pointer border border-gray-800 hover:border-indigo-500/50 transition-all duration-300 flex flex-col items-center text-center">
-                        <div class="w-12 h-12 rounded-xl bg-indigo-500/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                            <i class="fas fa-file-alt text-indigo-400 text-xl"></i>
-                        </div>
-                        <h3 class="text-white font-bold mb-1">CASE Exam 2024 (Set A)</h3>
-                        <p class="text-xs text-slate-400 mb-4">Previous Year Paper</p>
-                        <span class="text-xs font-mono text-indigo-400 border border-indigo-500/20 px-3 py-1 rounded bg-indigo-500/5 group-hover:bg-indigo-500/10 transition-colors">DOWNLOAD PDF</span>
+                    <a href="PHYSICS CASE QP 2024-SET A.pdf" target="_blank" class="glass-panel p-6 rounded-2xl border border-gray-800 hover:border-indigo-500/50 transition-all text-center">
+                        <i class="fas fa-file-alt text-indigo-400 text-3xl mb-4"></i>
+                        <h3 class="text-white font-bold text-sm">CASE 2024 Set A</h3>
+                        <span class="text-xs text-indigo-400 mt-2 block">DOWNLOAD</span>
                     </a>
-
-                    <!-- 2024 CASE Set B Card -->
-                    <a href="PHYSICS CASE QP- 2024-SET B.pdf" target="_blank" class="group relative glass-panel p-6 rounded-2xl cursor-pointer border border-gray-800 hover:border-blue-500/50 transition-all duration-300 flex flex-col items-center text-center">
-                        <div class="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                            <i class="fas fa-file-alt text-blue-400 text-xl"></i>
-                        </div>
-                        <h3 class="text-white font-bold mb-1">CASE Exam 2024 (Set B)</h3>
-                        <p class="text-xs text-slate-400 mb-4">Practice Set B</p>
-                        <span class="text-xs font-mono text-blue-400 border border-blue-500/20 px-3 py-1 rounded bg-blue-500/5 group-hover:bg-blue-500/10 transition-colors">DOWNLOAD PDF</span>
+                    <a href="PHYSICS CASE QP- 2024-SET B.pdf" target="_blank" class="glass-panel p-6 rounded-2xl border border-gray-800 hover:border-blue-500/50 transition-all text-center">
+                        <i class="fas fa-file-alt text-blue-400 text-3xl mb-4"></i>
+                        <h3 class="text-white font-bold text-sm">CASE 2024 Set B</h3>
+                        <span class="text-xs text-blue-400 mt-2 block">DOWNLOAD</span>
                     </a>
-
-                    <!-- 2023 SQP Card -->
-                    <a href="Physics-SQP.pdf" target="_blank" class="group relative glass-panel p-6 rounded-2xl cursor-pointer border border-gray-800 hover:border-emerald-500/50 transition-all duration-300 flex flex-col items-center text-center">
-                        <div class="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                            <i class="fas fa-history text-emerald-400 text-xl"></i>
-                        </div>
-                        <h3 class="text-white font-bold mb-1">CBSE SQP 2023-24</h3>
-                        <p class="text-xs text-slate-400 mb-4">Past Year Reference</p>
-                        <span class="text-xs font-mono text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded bg-emerald-500/5 group-hover:bg-emerald-500/10 transition-colors">DOWNLOAD PDF</span>
+                    <a href="Physics-SQP.pdf" target="_blank" class="glass-panel p-6 rounded-2xl border border-gray-800 hover:border-emerald-500/50 transition-all text-center">
+                        <i class="fas fa-history text-emerald-400 text-3xl mb-4"></i>
+                        <h3 class="text-white font-bold text-sm">CBSE SQP 2023</h3>
+                        <span class="text-xs text-emerald-400 mt-2 block">DOWNLOAD</span>
                     </a>
-                    <!-- Competency Guide 1 Card -->
-                    <a href="Physics_G12_Vol1_2023.pdf" target="_blank" class="group relative glass-panel p-6 rounded-2xl cursor-pointer border border-gray-800 hover:border-orange-500/50 transition-all duration-300 flex flex-col items-center text-center">
-                        <div class="w-12 h-12 rounded-xl bg-orange-500/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                            <i class="fas fa-brain text-orange-400 text-xl"></i>
-                        </div>
-                        <h3 class="text-white font-bold mb-1">Competency Guide Vol 1</h3>
-                        <p class="text-xs text-slate-400 mb-4">Official CBSE Practice</p>
-                        <span class="text-xs font-mono text-orange-400 border border-orange-500/20 px-3 py-1 rounded bg-orange-500/5 group-hover:bg-orange-500/10 transition-colors">DOWNLOAD PDF</span>
+                    <a href="Physics_G12_Vol1_2023.pdf" target="_blank" class="glass-panel p-6 rounded-2xl border border-gray-800 hover:border-orange-500/50 transition-all text-center">
+                        <i class="fas fa-brain text-orange-400 text-3xl mb-4"></i>
+                        <h3 class="text-white font-bold text-sm">Competency Guide Vol 1</h3>
+                        <span class="text-xs text-orange-400 mt-2 block">DOWNLOAD</span>
                     </a>
-                    <!-- Competency Guide 2 Card -->
-                    <a href="Physics_12Vol2.pdf" target="_blank" class="group relative glass-panel p-6 rounded-2xl cursor-pointer border border-gray-800 hover:border-pink-500/50 transition-all duration-300 flex flex-col items-center text-center">
-                        <div class="w-12 h-12 rounded-xl bg-pink-500/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                            <i class="fas fa-brain text-pink-400 text-xl"></i>
-                        </div>
-                        <h3 class="text-white font-bold mb-1">Competency Guide Vol 2</h3>
-                        <p class="text-xs text-slate-400 mb-4">Advanced Questions</p>
-                        <span class="text-xs font-mono text-pink-400 border border-pink-500/20 px-3 py-1 rounded bg-pink-500/5 group-hover:bg-pink-500/10 transition-colors">DOWNLOAD PDF</span>
+                    <a href="Physics_12Vol2.pdf" target="_blank" class="glass-panel p-6 rounded-2xl border border-gray-800 hover:border-pink-500/50 transition-all text-center">
+                        <i class="fas fa-brain text-pink-400 text-3xl mb-4"></i>
+                        <h3 class="text-white font-bold text-sm">Competency Guide Vol 2</h3>
+                        <span class="text-xs text-pink-400 mt-2 block">DOWNLOAD</span>
                     </a>
                 </div>
-                
-                <div class="mt-8 text-center border-t border-gray-800 pt-6">
-                    <p class="text-xs text-slate-500 uppercase tracking-widest font-mono">Source Verification</p>
-                    <ul class="text-sm text-slate-400 mt-2 space-y-1">
-                        <li><i class="fas fa-check-circle text-green-500 mr-2"></i> Content aligned with CBSE Curriculum 2025-26</li>
-                        <li><i class="fas fa-check-circle text-green-500 mr-2"></i> Blueprints derived from Official CBSE SQP</li>
-                        <li><i class="fas fa-check-circle text-green-500 mr-2"></i> Solutions reviewed for Marking Scheme accuracy</li>
-                    </ul>
+                <div class="mt-8 pt-6 border-t border-gray-800 text-center text-xs text-slate-500">
+                    <p><strong>Sources Verified:</strong> CBSE Curriculum 2025-26 • CBSE Sample Question Paper 2025-26 • CASE Past Year Papers</p>
                 </div>
             </div>
         </div>
 
         <!-- VIEW: STUDY ZONE -->
-        <div id="view-study-zone" class="hidden space-y-8 animate-slide-in">
-            <!-- Study Header -->
+        <div id="view-study-zone" class="hidden space-y-8 animate-fade-in">
             <div class="text-center py-8">
-                <h2 class="text-4xl font-bold text-white mb-2 tracking-tight">Deep Dive Study Zone</h2>
-                <p class="text-slate-400">Detailed notes, derivations, and exam hacks for high-yield topics.</p>
+                <h2 class="text-4xl font-bold text-white mb-2">Deep Dive Study Zone</h2>
+                <p class="text-slate-400">Comprehensive Notes, Derivations, and Exam-Ready Answers.</p>
             </div>
-
-            <!-- Study Topics Grid -->
             <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 h-full">
-                <!-- Sidebar Navigation -->
-                <div class="lg:col-span-1 space-y-2 h-fit sticky top-24" id="study-nav">
-                    <!-- Nav items injected via JS -->
-                </div>
-
-                <!-- Content Display -->
+                <div class="lg:col-span-1 space-y-2 h-fit sticky top-24" id="study-nav"></div>
                 <div class="lg:col-span-3">
-                    <div id="study-content" class="glass-panel p-8 rounded-2xl border border-gray-800 min-h-[600px] relative">
-                        <!-- Default State -->
-                        <div class="flex flex-col items-center justify-center h-full text-slate-500 py-20">
-                            <i class="fas fa-book-reader text-6xl mb-4 opacity-20"></i>
-                            <p class="text-lg">Select a topic from the left to begin deep studying.</p>
-                            <p class="text-sm opacity-60">Contains full notes, diagrams, and numerical practice.</p>
-                        </div>
-                    </div>
+                    <div id="study-content" class="glass-panel p-8 rounded-2xl border border-gray-800 min-h-[600px]"></div>
                 </div>
             </div>
         </div>
 
     </main>
 
-    <!-- Modals -->
-    <!-- Full Screen Q&A Modal -->
-    <div id="modal-backdrop" class="fixed inset-0 bg-black/90 backdrop-blur-sm z-[100] hidden transition-opacity opacity-0" onclick="closeModal()"></div>
-    <div id="modal-panel" class="fixed inset-x-4 top-4 bottom-4 md:inset-x-auto md:w-3/4 md:left-1/2 md:-translate-x-1/2 bg-[#151921] border border-gray-700 rounded-2xl shadow-2xl z-[101] hidden flex flex-col transform transition-all scale-95 opacity-0">
-        <!-- Modal Header -->
+    <!-- Modal -->
+    <div id="modal-backdrop" class="fixed inset-0 bg-black/90 backdrop-blur-sm z-[100] hidden" onclick="closeModal()"></div>
+    <div id="modal-panel" class="fixed inset-x-4 top-10 bottom-10 md:w-3/4 md:left-1/2 md:-translate-x-1/2 bg-[#151921] border border-gray-700 rounded-2xl z-[101] hidden flex flex-col">
         <div class="px-6 py-4 border-b border-gray-700 flex justify-between items-center bg-[#0B0E14] rounded-t-2xl">
-            <div>
-                <h3 id="modal-title" class="text-xl font-bold text-white"></h3>
-                <p id="modal-subtitle" class="text-xs text-slate-400 mt-1"></p>
-            </div>
-            <button onclick="closeModal()" class="w-8 h-8 rounded-full bg-gray-800 text-slate-400 hover:text-white hover:bg-gray-700 flex items-center justify-center transition-colors">
-                <i class="fas fa-times"></i>
-            </button>
+            <h3 id="modal-title" class="text-xl font-bold text-white"></h3>
+            <button onclick="closeModal()" class="text-slate-400 hover:text-white"><i class="fas fa-times"></i></button>
         </div>
-        
-        <!-- Modal Content (Scrollable) -->
-        <div id="modal-body" class="flex-1 overflow-y-auto p-6 space-y-4 custom-scrollbar">
-            <!-- Injected Content -->
-        </div>
+        <div id="modal-body" class="flex-1 overflow-y-auto p-6 space-y-6"></div>
     </div>
 
-    <!-- JavaScript Logic -->
+    <!-- JS Logic -->
     <script>
-        // --- 1. CORE DATA: BLUEPRINT & QUESTIONS ---
-        const blueprintData = {
-            sections: [
-                { id: 'E', label: 'Section E (5M)', color: 'indigo', icon: 'fa-book-open', desc: 'Long Answer & Derivations', 
-                  questions: [
-                      { no: 31, chapter: 'Electrostatics', topic: 'Capacitance with Dielectric', tips: 'Practice V vs d graph. Remember C increases K times.' },
-                      { no: 32, chapter: 'Ray Optics', topic: 'Lens Maker Formula', tips: 'Sign convention is critical. Draw proper ray diagram.' },
-                      { no: 33, chapter: 'Devices', topic: 'Transformer Principle', tips: 'Mention Flux Leakage and Eddy Currents in losses.' }
-                  ] 
-                },
-                { id: 'D', label: 'Section D (4M)', color: 'emerald', icon: 'fa-microscope', desc: 'Case Studies',
-                  questions: [
-                      { no: 29, chapter: 'Semiconductors', topic: 'p-n Junction & Rectifier', tips: 'Analyze forward/reverse bias in given circuit diagram.' },
-                      { no: 30, chapter: 'Dual Nature', topic: 'Photoelectric Graphs', tips: 'Identify metal based on work function from graph intercept.' }
-                  ]
-                },
-                { id: 'C', label: 'Section C (3M)', color: 'amber', icon: 'fa-pencil-ruler', desc: 'Short Answer & Conceptual',
-                  questions: [
-                      { no: 22, chapter: 'Semiconductors', topic: 'Full Wave Rectifier', tips: 'Draw input AC and output DC waveforms aligned vertically.' },
-                      { no: 23, chapter: 'Current Elec', topic: 'Kirchhoff Laws', tips: 'Apply Loop Law carefully. Watch out for battery polarity.' },
-                      { no: 24, chapter: 'Nuclei', topic: 'Binding Energy Calculation', tips: 'Convert mass defect to energy: 1u = 931.5 MeV.' }
-                  ]
-                },
-                { id: 'B', label: 'Section B (2M)', color: 'blue', icon: 'fa-info-circle', desc: 'Reasoning & Definitions',
-                  questions: [
-                      { no: 18, chapter: 'Current Elec', topic: 'Internal Resistance Graph', tips: 'Slope = -r, Intercept = EMF.' },
-                      { no: 21, chapter: 'Atoms', topic: 'Alpha Scattering', tips: 'Relate impact parameter to scattering angle.' }
-                  ]
-                }
-            ]
-        };
-
-        // --- 2. ENHANCED Q&A DATA (With "Twist & Turn") ---
+        // --- 1. ENHANCED Q&A DATABASE (Exam Ready) ---
         const qaDatabase = {
             'hot-list': [
                 {
-                    q: "Derive the expression for Capacitance of a parallel plate capacitor with a dielectric slab of thickness t < d.",
+                    q: "Q31: Derive the expression for Capacitance of a parallel plate capacitor with a dielectric slab of thickness t < d.",
                     a: `
-                        <div class="space-y-3">
-                            <p><strong>Goal:</strong> Find C when partial dielectric K is inserted.</p>
-                            <ol class="list-decimal list-inside space-y-1 ml-2">
-                                <li>Electric field in air gap = $E_0 = \\sigma/\\epsilon_0$. Field in dielectric = $E = E_0/K$.</li>
-                                <li>Potential Difference $V$ is sum of potential across air and dielectric segments:
-                                    <br>$$ V = E_0(d-t) + E(t) $$
-                                </li>
-                                <li>Substitute $E = E_0/K$:
-                                    <br>$$ V = E_0(d-t) + \\frac{E_0}{K}t = E_0 [d - t + \\frac{t}{K}] $$
-                                </li>
-                                <li>Since $E_0 = \\frac{Q}{A\\epsilon_0}$, substitute back:
-                                    <br>$$ V = \\frac{Q}{A\\epsilon_0} [d - t(1 - \\frac{1}{K})] $$
-                                </li>
-                                <li>Finally, $C = Q/V$:
-                                    <br>$$ C = \\frac{\\epsilon_0 A}{d - t(1 - \\frac{1}{K})} $$
-                                </li>
-                            </ol>
+                        <div class="space-y-4 text-slate-300 text-sm leading-relaxed">
+                            <p><strong>Step 1: Setup</strong><br>Consider a parallel plate capacitor with area $A$, separation $d$. Vacuum field is $E_0 = \\sigma/\\epsilon_0$. A dielectric slab of thickness $t$ and constant $K$ is inserted.</p>
+                            <p><strong>Step 2: Field Distribution</strong><br>Inside air (thickness $d-t$): Field is $E_0$.<br>Inside dielectric (thickness $t$): Field is $E = E_0/K$.</p>
+                            <p><strong>Step 3: Potential Difference (V)</strong><br>
+                            $$ V = E_0(d-t) + E(t) $$<br>
+                            $$ V = E_0(d-t) + \\frac{E_0}{K}(t) $$<br>
+                            $$ V = E_0 [d - t + \\frac{t}{K}] = E_0 [d - t(1 - \\frac{1}{K})] $$</p>
+                            <p><strong>Step 4: Capacitance</strong><br>
+                            Since $E_0 = \\frac{Q}{A\\epsilon_0}$, substitute $E_0$:<br>
+                            $$ V = \\frac{Q}{A\\epsilon_0} [d - t(1 - \\frac{1}{K})] $$<br>
+                            $$ C = \\frac{Q}{V} = \\frac{\\epsilon_0 A}{d - t(1 - \\frac{1}{K})} $$</p>
                         </div>
                     `,
-                    twist: "<strong>Exam Twist:</strong> What if the slab is metallic (Conducting)? <br><strong>Answer:</strong> For a metal, K = ∞. The term 1/K becomes 0. The formula simplifies to $$ C = \\frac{\\epsilon_0 A}{d-t} $$. This effectively reduces the plate separation, increasing capacitance."
+                    twist: "<strong>Twist:</strong> If a metal slab is used ($K=\\infty$), the term $1/K \\to 0$. Formula becomes $C = \\epsilon_0 A / (d-t)$."
                 },
                 {
-                    q: "Explain the working of a Full Wave Rectifier with a circuit diagram.",
+                    q: "Q32: Lens Maker's Formula (Convex Lens)",
                     a: `
-                        <div class="space-y-3">
-                            <p><strong>Principle:</strong> Uses two p-n junction diodes to convert both halves of AC input into pulsating DC.</p>
-                            <ul class="list-disc list-inside ml-2">
-                                <li><strong>Diagram Essentials:</strong> Center-tapped transformer secondary coil. Two diodes (D1, D2) connected to top and bottom ends. Load resistance ($R_L$) connected between center tap and diode common point.</li>
-                                <li><strong>Positive Half Cycle:</strong> D1 is Forward Biased (ON), D2 is Reverse Biased (OFF). Current flows through D1 and Load (A to B).</li>
-                                <li><strong>Negative Half Cycle:</strong> D1 is OFF, D2 is ON. Current flows through D2 and Load (A to B).</li>
-                                <li><strong>Result:</strong> Current through load is always in same direction.</li>
-                            </ul>
+                        <div class="space-y-4 text-slate-300 text-sm leading-relaxed">
+                            <p><strong>Assumptions:</strong> Thin lens, paraxial rays, point object.</p>
+                            <p><strong>Surface 1 (Air $n_1$ to Glass $n_2$):</strong> Image $I_1$ forms at $v'$.<br>
+                            $$ \\frac{n_2}{v'} - \\frac{n_1}{u} = \\frac{n_2-n_1}{R_1} \\quad ...(1) $$</p>
+                            <p><strong>Surface 2 (Glass $n_2$ to Air $n_1$):</strong> $I_1$ acts as virtual object. Final image $I$ at $v$.<br>
+                            $$ \\frac{n_1}{v} - \\frac{n_2}{v'} = \\frac{n_1-n_2}{R_2} \\quad ...(2) $$</p>
+                            <p><strong>Combine:</strong> Add (1) and (2):<br>
+                            $$ \\frac{n_1}{v} - \\frac{n_1}{u} = (n_2-n_1)(\\frac{1}{R_1} - \\frac{1}{R_2}) $$<br>
+                            Divide by $n_1$: $$ \\frac{1}{v} - \\frac{1}{u} = (\\frac{n_2}{n_1} - 1)(\\frac{1}{R_1} - \\frac{1}{R_2}) $$</p>
+                            <p><strong>Result:</strong> When $u=\\infty, v=f$. So, $1/f = (\\mu - 1)(1/R_1 - 1/R_2)$.</p>
                         </div>
                     `,
-                    twist: "<strong>Exam Twist:</strong> If input frequency is 50Hz, what is the output frequency? <br><strong>Answer:</strong> For Full Wave Rectifier, output ripple frequency is <strong>2 × Input Frequency</strong> = 100Hz. (Reason: Output pulse repeats twice for every one input cycle)."
+                    twist: "<strong>Twist:</strong> For Equi-convex lens, $R_1 = +R, R_2 = -R$. Formula: $1/f = (\\mu-1)(2/R)$."
                 },
                 {
-                    q: "Derive Lens Maker's Formula for a double convex lens.",
+                    q: "Q33: Transformer Principle & Losses",
                     a: `
-                        <div class="space-y-3">
-                            <p><strong>Setup:</strong> Lens with refractive index $n_2$ in medium $n_1$. Radii of curvature $R_1, R_2$.</p>
-                            <ul class="list-disc list-inside ml-2">
-                                <li><strong>Surface 1 (Air to Glass):</strong> Forms image $I_1$ at $v'$.
-                                    <br>$$ \\frac{n_2}{v'} - \\frac{n_1}{u} = \\frac{n_2-n_1}{R_1} $$ (Eq 1)
-                                </li>
-                                <li><strong>Surface 2 (Glass to Air):</strong> $I_1$ acts as virtual object. Final image $I$ at $v$.
-                                    <br>$$ \\frac{n_1}{v} - \\frac{n_2}{v'} = \\frac{n_1-n_2}{R_2} $$ (Eq 2)
-                                </li>
-                                <li><strong>Add (Eq 1) + (Eq 2):</strong>
-                                    <br>$$ \\frac{n_1}{v} - \\frac{n_1}{u} = (n_2-n_1)(\\frac{1}{R_1} - \\frac{1}{R_2}) $$
-                                </li>
-                                <li>Dividing by $n_1$ and using $1/v - 1/u = 1/f$:
-                                    <br>$$ \\frac{1}{f} = (\\frac{n_2}{n_1} - 1)(\\frac{1}{R_1} - \\frac{1}{R_2}) $$
-                                </li>
-                            </ul>
+                        <div class="space-y-4 text-slate-300 text-sm leading-relaxed">
+                            <p><strong>Principle:</strong> Mutual Induction. An alternating current in primary coil produces changing magnetic flux, which induces EMF in secondary coil.</p>
+                            <p><strong>Formula:</strong> $V_s/V_p = N_s/N_p = I_p/I_s = k$ (Transformation Ratio).</p>
+                            <p><strong>Energy Losses (4 Marks part):</strong><br>
+                            1. <strong>Flux Leakage:</strong> Not all primary flux links secondary. (Fix: Soft iron core).<br>
+                            2. <strong>Resistance (Copper Loss):</strong> Heat $I^2R$ in windings. (Fix: Thick copper wires).<br>
+                            3. <strong>Eddy Currents:</strong> Induced currents in core cause heat. (Fix: Laminated core).<br>
+                            4. <strong>Hysteresis:</strong> Magnetization/Demagnetization heat. (Fix: Soft iron material).
+                            </p>
                         </div>
                     `,
-                    twist: "<strong>Exam Twist:</strong> A convex lens of refractive index 1.5 is dipped in a liquid of refractive index 1.65. How does it behave? <br><strong>Answer:</strong> The relative refractive index $(n_2/n_1 - 1)$ becomes negative ($1.5/1.65 < 1$). The lens changes nature from Convex (Converging) to <strong>Diverging</strong>. Focal length becomes negative."
+                    twist: "<strong>Twist:</strong> For long distance transmission, Step-Up transformer is used at power station to reduce current ($I$) and thus reduce $I^2R$ line losses."
                 }
             ],
             'repeated-list': [
                 {
-                    q: "State Gauss's Law and use it to find the field due to an infinite plane sheet of charge.",
-                    a: "<strong>Law:</strong> Flux φ = q_enclosed / ε₀.<br><strong>Derivation:</strong> Choose a cylindrical Gaussian surface piercing the sheet. Flux only comes out of the two flat caps (E is parallel to curved surface).<br>2EA = (σA)/ε₀.<br><strong>Result:</strong> E = σ / 2ε₀.",
-                    twist: "<strong>Twist:</strong> Plot a graph of E vs distance 'r' from the sheet. <br><strong>Answer:</strong> The graph is a straight horizontal line parallel to the r-axis because E is <em>independent</em> of distance r."
+                    q: "Gauss Law Application: Infinite Line Charge",
+                    a: `
+                        <div class="space-y-4 text-slate-300 text-sm leading-relaxed">
+                            <p><strong>Goal:</strong> Field $E$ at distance $r$ from wire with density $\\lambda$.</p>
+                            <p><strong>Gaussian Surface:</strong> Cylinder of radius $r$, length $l$.</p>
+                            <p><strong>Flux Calc:</strong> Field is radial. Flux through flat caps = 0 ($E \\perp dA$).<br>
+                            Flux through curved surface = $E \\times (2\\pi r l)$.</p>
+                            <p><strong>Charge Enclosed:</strong> $q = \\lambda l$.</p>
+                            <p><strong>Apply Law:</strong> $\\phi = q/\\epsilon_0 \\implies E(2\\pi r l) = \\lambda l / \\epsilon_0$.</p>
+                            <p><strong>Result:</strong> $E = \\frac{\\lambda}{2\\pi\\epsilon_0 r}$.</p>
+                        </div>
+                    `,
+                    twist: "<strong>Graph:</strong> $E \\propto 1/r$. The graph is a rectangular hyperbola."
                 },
                 {
-                    q: "Describe the principle and construction of a Moving Coil Galvanometer.",
-                    a: "<strong>Principle:</strong> A current carrying coil in a magnetic field experiences a torque (τ = NIAB sinθ).<br><strong>Radial Field:</strong> Concave pole pieces and soft iron core ensure θ = 90° always, so τ = NIAB (max constant torque). This makes the scale linear.",
-                    twist: "<strong>Twist:</strong> Why is a phosphor-bronze strip used for suspension? <br><strong>Answer:</strong> It has a very low torsional constant 'k', making the galvanometer more sensitive (Sensitivity ∝ 1/k)."
+                    q: "Moving Coil Galvanometer",
+                    a: `
+                        <div class="space-y-4 text-slate-300 text-sm leading-relaxed">
+                            <p><strong>Principle:</strong> Current carrying coil in magnetic field experiences torque $\\tau = NIAB\\sin\\theta$.</p>
+                            <p><strong>Radial Field:</strong> Using concave poles and soft iron core makes field radial ($\theta=90^{\\circ}$ always).<br>
+                            So, Deflecting Torque $\\tau_d = NIAB$.</p>
+                            <p><strong>Equilibrium:</strong> $\\tau_d = \\tau_r$ (Restoring torque $k\\alpha$).<br>
+                            $NIAB = k\\alpha \\implies \\alpha = (NAB/k)I$.</p>
+                            <p><strong>Result:</strong> Deflection $\\alpha \\propto I$ (Linear Scale).</p>
+                        </div>
+                    `,
+                    twist: "<strong>Current Sensitivity:</strong> $S_i = \\alpha/I = NAB/k$. To increase sensitivity, increase $N, A, B$ or decrease $k$ (use Phosphor Bronze)."
                 }
             ]
         };
 
-        // --- 3. STUDY ZONE CONTENT (Deep Dive) ---
+        // --- 2. COMPREHENSIVE STUDY NOTES ---
         const studyData = [
             {
-                id: 'optics',
-                title: 'Ray Optics & Optical Instruments',
-                icon: 'fa-eye',
+                id: 'electro', title: 'Unit 1: Electrostatics', 
                 content: `
+                    <h2 class="text-3xl font-bold text-white mb-6">Electrostatics Master Notes</h2>
                     <div class="space-y-8">
-                        <div class="border-b border-gray-700 pb-4">
-                            <h3 class="text-3xl font-bold text-white">Ray Optics: The High Yield Unit (18 Marks)</h3>
-                            <p class="text-slate-400 mt-2">This unit combined with Wave Optics is the heaviest section. Mastery here is non-negotiable.</p>
-                        </div>
-
-                        <!-- Derivation Section -->
-                        <div class="glass-panel p-6 rounded-xl border-l-4 border-blue-500">
-                            <h4 class="text-xl font-bold text-blue-400 mb-4"><i class="fas fa-pen-nib mr-2"></i>Critical Derivations</h4>
-                            
-                            <div class="mb-6">
-                                <h5 class="text-lg font-bold text-white mb-2">1. Lens Maker's Formula</h5>
-                                <div class="bg-gray-900 p-4 rounded-lg font-mono text-sm text-green-400 mb-2">
-                                    1/f = (n₂/n₁ - 1)(1/R₁ - 1/R₂)
-                                </div>
-                                <p class="text-sm text-slate-300"><strong>Key Assumption:</strong> Lens is thin. Aperture is small. Object is point-sized.</p>
-                                <p class="text-sm text-slate-300 mt-1"><strong>Diagram Tip:</strong> Draw the two surfaces separately first to show refraction at each interface ($I_1$ is virtual object).</p>
-                            </div>
-
-                            <div class="mb-6">
-                                <h5 class="text-lg font-bold text-white mb-2">2. Refraction through Prism</h5>
-                                <div class="bg-gray-900 p-4 rounded-lg font-mono text-sm text-green-400 mb-2">
-                                    μ = sin((A + Dm)/2) / sin(A/2)
-                                </div>
-                                <p class="text-sm text-slate-300"><strong>Minimum Deviation ($D_m$):</strong> Occurs when $i = e$ and $r_1 = r_2$. The refracted ray travels <em>parallel</em> to the base of the prism (for equilateral prism).</p>
-                            </div>
-                        </div>
-
-                        <!-- Optical Instruments -->
-                        <div class="glass-panel p-6 rounded-xl border-l-4 border-pink-500">
-                            <h4 class="text-xl font-bold text-pink-400 mb-4"><i class="fas fa-microscope mr-2"></i>Optical Instruments</h4>
-                            
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div class="bg-gray-800/50 p-4 rounded-lg">
-                                    <h5 class="font-bold text-white mb-2">Compound Microscope</h5>
-                                    <ul class="text-sm text-slate-400 space-y-2">
-                                        <li><strong>Objective:</strong> Short focal length ($f_o$), small aperture.</li>
-                                        <li><strong>Eyepiece:</strong> Moderate focal length ($f_e$), larger aperture.</li>
-                                        <li><strong>Magnification (Near Point):</strong> $$ m = -\\frac{L}{f_o}(1 + \\frac{D}{f_e}) $$</li>
-                                        <li><strong>Ray Diagram Check:</strong> Final image must be Virtual, Inverted (w.r.t object), and Magnified.</li>
-                                    </ul>
-                                </div>
-                                <div class="bg-gray-800/50 p-4 rounded-lg">
-                                    <h5 class="font-bold text-white mb-2">Astronomical Telescope</h5>
-                                    <ul class="text-sm text-slate-400 space-y-2">
-                                        <li><strong>Objective:</strong> Large focal length ($f_o$), large aperture (brightness).</li>
-                                        <li><strong>Eyepiece:</strong> Small focal length ($f_e$).</li>
-                                        <li><strong>Magnification (Normal Adj):</strong> $$ m = -f_o / f_e $$</li>
-                                        <li><strong>Length of Tube:</strong> $L = f_o + f_e$ (Normal Adjustment).</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Numerical Practice Zone -->
-                        <div class="glass-panel p-6 rounded-xl border-l-4 border-yellow-500">
-                            <h4 class="text-xl font-bold text-yellow-400 mb-4"><i class="fas fa-calculator mr-2"></i>Numerical Twisters</h4>
-                            <div class="space-y-4">
-                                <div class="bg-gray-900 p-4 rounded-lg">
-                                    <p class="text-white text-sm font-bold">Q: A biconvex lens ($n=1.5$) has radii 20cm. It is immersed in water ($n=1.33$). Find change in focal length.</p>
-                                    <p class="text-slate-400 text-xs mt-2 border-t border-gray-700 pt-2">
-                                        <strong>Method:</strong> <br>
-                                        1. Find $f_{air}$: $(1.5-1)(1/20 - (-1/20)) \rightarrow f_{air} = 20cm$. <br>
-                                        2. Find $f_{water}$: $(1.5/1.33 - 1)(2/20)$. <br>
-                                        <strong>Result:</strong> $f_{water} \approx 4 \times f_{air}$. Focal length increases 4 times!
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `
-            },
-            {
-                id: 'electro',
-                title: 'Electrostatics & Capacitors',
-                icon: 'fa-bolt',
-                content: `
-                    <div class="space-y-8">
-                        <div class="border-b border-gray-700 pb-4">
-                            <h3 class="text-3xl font-bold text-white">Electrostatics: Foundation of Physics (16 Marks)</h3>
-                            <p class="text-slate-400 mt-2">Includes Electric Charges, Fields, Potential, and Capacitance.</p>
-                        </div>
-
-                        <!-- Concept Map -->
-                        <div class="glass-panel p-6 rounded-xl border-l-4 border-amber-500">
-                            <h4 class="text-xl font-bold text-amber-400 mb-4">Gauss Law & Applications</h4>
-                            <table class="w-full text-sm text-left text-slate-300">
-                                <thead class="text-xs text-slate-500 uppercase bg-gray-900">
-                                    <tr>
-                                        <th class="px-4 py-3">Distribution</th>
-                                        <th class="px-4 py-3">Formula ($E$)</th>
-                                        <th class="px-4 py-3">Graph Shape</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="divide-y divide-gray-700">
-                                    <tr>
-                                        <td class="px-4 py-3 font-semibold text-white">Infinite Line Charge</td>
-                                        <td class="px-4 py-3">$$ \frac{\lambda}{2\pi\epsilon_0 r} $$</td>
-                                        <td class="px-4 py-3">Hyperbola ($E \propto 1/r$)</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="px-4 py-3 font-semibold text-white">Infinite Plane Sheet</td>
-                                        <td class="px-4 py-3">$$ \frac{\sigma}{2\epsilon_0} $$</td>
-                                        <td class="px-4 py-3">Straight Horizontal ($E$ constant)</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="px-4 py-3 font-semibold text-white">Conducting Sphere</td>
-                                        <td class="px-4 py-3">0 (Inside)<br>$$ \frac{1}{4\pi\epsilon_0}\frac{Q}{r^2} $$ (Outside)</td>
-                                        <td class="px-4 py-3">Discontinuous at $r=R$</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <!-- Deep Dive: Capacitors -->
-                        <div class="glass-panel p-6 rounded-xl border-l-4 border-purple-500">
-                            <h4 class="text-xl font-bold text-purple-400 mb-4">The Dielectric Effect (SQP Favorite)</h4>
-                            <p class="text-slate-300 mb-4 text-sm">Understanding how variables change when a dielectric is inserted is crucial for MCQs and 3-markers.</p>
-                            
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div class="bg-gray-900 p-4 rounded-lg border border-gray-700">
-                                    <h5 class="text-white font-bold mb-2 text-center">Battery Disconnected</h5>
-                                    <ul class="text-xs text-slate-400 space-y-2">
-                                        <li class="flex justify-between"><span>Charge ($Q$)</span> <span class="text-white">Constant</span></li>
-                                        <li class="flex justify-between"><span>Capacity ($C$)</span> <span class="text-green-400">Increases ($K C_0$)</span></li>
-                                        <li class="flex justify-between"><span>Potential ($V$)</span> <span class="text-red-400">Decreases ($V_0/K$)</span></li>
-                                        <li class="flex justify-between"><span>Field ($E$)</span> <span class="text-red-400">Decreases ($E_0/K$)</span></li>
-                                        <li class="flex justify-between"><span>Energy ($U$)</span> <span class="text-red-400">Decreases ($U_0/K$)</span></li>
-                                    </ul>
-                                </div>
-                                <div class="bg-gray-900 p-4 rounded-lg border border-gray-700">
-                                    <h5 class="text-white font-bold mb-2 text-center">Battery Connected</h5>
-                                    <ul class="text-xs text-slate-400 space-y-2">
-                                        <li class="flex justify-between"><span>Potential ($V$)</span> <span class="text-white">Constant</span></li>
-                                        <li class="flex justify-between"><span>Capacity ($C$)</span> <span class="text-green-400">Increases ($K C_0$)</span></li>
-                                        <li class="flex justify-between"><span>Charge ($Q$)</span> <span class="text-green-400">Increases ($K Q_0$)</span></li>
-                                        <li class="flex justify-between"><span>Field ($E$)</span> <span class="text-white">Constant ($V/d$)</span></li>
-                                        <li class="flex justify-between"><span>Energy ($U$)</span> <span class="text-green-400">Increases ($K U_0$)</span></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `
-            },
-            {
-                id: 'semi',
-                title: 'Semiconductors',
-                icon: 'fa-microchip',
-                content: `
-                    <div class="space-y-8">
-                        <div class="border-b border-gray-700 pb-4">
-                            <h3 class="text-3xl font-bold text-white">Semiconductors (7 Marks)</h3>
-                            <p class="text-slate-400 mt-2">Small syllabus, high scoring. Diagrams are key here.</p>
-                        </div>
-
-                        <!-- Rectifiers -->
-                        <div class="glass-panel p-6 rounded-xl border-t-4 border-green-500">
-                            <h4 class="text-xl font-bold text-green-400 mb-4">Rectification Logic</h4>
-                            <div class="flex flex-col md:flex-row gap-6">
-                                <div class="flex-1 bg-gray-900 p-4 rounded-lg">
-                                    <h5 class="text-white font-bold mb-2">Half Wave</h5>
-                                    <p class="text-xs text-slate-400 mb-2">Uses 1 Diode. Converts only one half cycle.</p>
-                                    <div class="h-24 bg-gray-800 rounded relative overflow-hidden flex items-center justify-center border border-gray-700">
-                                        <span class="text-[10px] text-slate-500">Output Diagram: Pulse... Gap... Pulse...</span>
-                                    </div>
-                                    <p class="text-xs text-slate-300 mt-2">Freq_out = Freq_in</p>
-                                </div>
-                                <div class="flex-1 bg-gray-900 p-4 rounded-lg">
-                                    <h5 class="text-white font-bold mb-2">Full Wave (Center Tap)</h5>
-                                    <p class="text-xs text-slate-400 mb-2">Uses 2 Diodes. Converts both cycles.</p>
-                                    <div class="h-24 bg-gray-800 rounded relative overflow-hidden flex items-center justify-center border border-gray-700">
-                                        <span class="text-[10px] text-slate-500">Output Diagram: Pulse... Pulse... Pulse...</span>
-                                    </div>
-                                    <p class="text-xs text-slate-300 mt-2">Freq_out = 2 × Freq_in</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Theory -->
-                        <div class="glass-panel p-6 rounded-xl border-t-4 border-red-500">
-                            <h4 class="text-xl font-bold text-red-400 mb-4">Exam Vivas & Reasoning</h4>
-                            <ul class="space-y-3 text-sm text-slate-300">
-                                <li class="bg-gray-900 p-3 rounded">
-                                    <strong>Q: Why is Si preferred over Ge?</strong>
-                                    <br><span class="text-slate-400">A: Si has higher band gap (1.1eV vs 0.7eV), making it thermally more stable and less noisy at room temp.</span>
-                                </li>
-                                <li class="bg-gray-900 p-3 rounded">
-                                    <strong>Q: What happens to depletion width in Forward Bias?</strong>
-                                    <br><span class="text-slate-400">A: It decreases. The applied field opposes the built-in potential barrier, pushing carriers into the junction.</span>
-                                </li>
-                                <li class="bg-gray-900 p-3 rounded">
-                                    <strong>Q: Why is the base of a transistor thin?</strong>
-                                    <br><span class="text-slate-400">A: To ensure most carriers (95%+) pass from Emitter to Collector without recombining in the Base.</span>
+                        <div class="bg-gray-900 p-6 rounded-xl border-l-4 border-blue-500">
+                            <h3 class="text-xl font-bold text-blue-400 mb-4">1. Electric Charges & Fields</h3>
+                            <ul class="list-disc list-inside text-slate-300 text-sm space-y-2">
+                                <li><strong>Coulomb's Law:</strong> $F = k q_1 q_2 / r^2$. Vector form uses unit vector $\\hat{r}$.</li>
+                                <li><strong>Electric Field:</strong> Point charge: $E = kQ/r^2$. Dipole Axis: $2kp/r^3$. Equator: $kp/r^3$.</li>
+                                <li><strong>Dipole Torque:</strong> $\\vec{\\tau} = \\vec{p} \\times \\vec{E} = pE\\sin\\theta$. Max at 90°. Stable at 0°.</li>
+                                <li><strong>Gauss Law:</strong> $\\oint E.dA = q_{in}/\\epsilon_0$.
+                                    <br>- Shell (Inside): $E=0$.
+                                    <br>- Shell (Outside): Behaves like point charge.
                                 </li>
                             </ul>
                         </div>
-                    </div>
-                `
+                        <div class="bg-gray-900 p-6 rounded-xl border-l-4 border-purple-500">
+                            <h3 class="text-xl font-bold text-purple-400 mb-4">2. Potential & Capacitance</h3>
+                            <ul class="list-disc list-inside text-slate-300 text-sm space-y-2">
+                                <li><strong>Potential (V):</strong> $V = kQ/r$. Scalar. Dipole: $kp\\cos\\theta/r^2$.</li>
+                                <li><strong>Relation E-V:</strong> $E = -dV/dr$. Field flows High to Low potential.</li>
+                                <li><strong>Capacitor:</strong> $C = \\epsilon_0 A / d$. With Dielectric: $C = K C_0$.</li>
+                                <li><strong>Energy:</strong> $U = 1/2 CV^2 = Q^2/2C = 1/2 QV$. Density: $1/2 \\epsilon_0 E^2$.</li>
+                            </ul>
+                        </div>
+                    </div>`
+            },
+            {
+                id: 'current', title: 'Unit 2: Current Electricity', 
+                content: `
+                    <h2 class="text-3xl font-bold text-white mb-6">Current Electricity</h2>
+                    <div class="space-y-8">
+                        <div class="bg-gray-900 p-6 rounded-xl border-l-4 border-green-500">
+                            <h3 class="text-xl font-bold text-green-400 mb-4">Drift Velocity & Ohm's Law</h3>
+                            <p class="text-slate-300 text-sm mb-4"><strong>Drift Velocity:</strong> $v_d = eE\\tau/m$. Current $I = n e A v_d$.</p>
+                            <p class="text-slate-300 text-sm"><strong>Resistivity ($\rho$):</strong> $\\rho = m / (n e^2 \\tau)$. Depends on material & Temp (not dimensions).</p>
+                        </div>
+                        <div class="bg-gray-900 p-6 rounded-xl border-l-4 border-red-500">
+                            <h3 class="text-xl font-bold text-red-400 mb-4">Kirchhoff & Cells</h3>
+                            <ul class="list-disc list-inside text-slate-300 text-sm space-y-2">
+                                <li><strong>KCL (Junction):</strong> $\\sum I = 0$ (Conservation of Charge).</li>
+                                <li><strong>KVL (Loop):</strong> $\\sum \\Delta V = 0$ (Conservation of Energy). Path direction match current = $-IR$.</li>
+                                <li><strong>Wheatstone Bridge:</strong> Balanced if $P/Q = R/S$. No current in galvanometer.</li>
+                                <li><strong>Cells:</strong> Series ($E_{eq} = E_1+E_2$). Parallel ($E_{eq} = (E_1 r_2 + E_2 r_1)/(r_1+r_2)$).</li>
+                            </ul>
+                        </div>
+                    </div>`
+            },
+            {
+                id: 'magnetism', title: 'Unit 3: Magnetism', 
+                content: `
+                    <h2 class="text-3xl font-bold text-white mb-6">Magnetic Effects</h2>
+                    <div class="space-y-8">
+                        <div class="bg-gray-900 p-6 rounded-xl border-l-4 border-yellow-500">
+                            <h3 class="text-xl font-bold text-yellow-400 mb-4">Moving Charges</h3>
+                            <ul class="list-disc list-inside text-slate-300 text-sm space-y-2">
+                                <li><strong>Biot-Savart:</strong> $dB = \\frac{\\mu_0 I dl \\sin\\theta}{4\\pi r^2}$.</li>
+                                <li><strong>Ampere's Law:</strong> $\\oint B.dl = \\mu_0 I_{enc}$. Solenoid $B = \\mu_0 n I$.</li>
+                                <li><strong>Force on Charge:</strong> $F = q(v \\times B)$. Path is Circle if $v \\perp B$ ($r = mv/qB$). Helix if angle $\\theta$.</li>
+                                <li><strong>Force on Wire:</strong> $F = I(l \\times B)$. Parallel wires attract if currents parallel.</li>
+                            </ul>
+                        </div>
+                    </div>`
+            },
+            {
+                id: 'emi', title: 'Unit 4: EMI & AC', 
+                content: `
+                    <h2 class="text-3xl font-bold text-white mb-6">EMI & Alternating Current</h2>
+                    <div class="space-y-8">
+                        <div class="bg-gray-900 p-6 rounded-xl border-l-4 border-indigo-500">
+                            <h3 class="text-xl font-bold text-indigo-400 mb-4">AC Circuits</h3>
+                            <p class="text-slate-300 text-sm mb-2"><strong>LCR Series:</strong> Impedance $Z = \\sqrt{R^2 + (X_L - X_C)^2}$.</p>
+                            <p class="text-slate-300 text-sm mb-2"><strong>Resonance:</strong> $X_L = X_C \\implies \\omega = 1/\\sqrt{LC}$. Current max ($V/R$).</p>
+                            <p class="text-slate-300 text-sm"><strong>Power:</strong> $P = V_{rms} I_{rms} \\cos\\phi$. Power factor $\\cos\\phi = R/Z$.</p>
+                        </div>
+                    </div>`
+            },
+            {
+                id: 'optics', title: 'Unit 6: Optics', 
+                content: `
+                    <h2 class="text-3xl font-bold text-white mb-6">Ray & Wave Optics</h2>
+                    <div class="space-y-8">
+                        <div class="bg-gray-900 p-6 rounded-xl border-l-4 border-pink-500">
+                            <h3 class="text-xl font-bold text-pink-400 mb-4">Wave Optics</h3>
+                            <ul class="list-disc list-inside text-slate-300 text-sm space-y-2">
+                                <li><strong>Huygens Principle:</strong> Every point on wavefront is source of secondary wavelets.</li>
+                                <li><strong>Interference (YDSE):</strong> Path diff $\\Delta x = n\\lambda$ (Bright), $(n-0.5)\\lambda$ (Dark).<br>Fringe Width $\\beta = \\lambda D / d$.</li>
+                                <li><strong>Diffraction (Single Slit):</strong> Central Max width = $2\\lambda D / a$. Minima at $a\\sin\\theta = n\\lambda$.</li>
+                            </ul>
+                        </div>
+                    </div>`
+            },
+            {
+                id: 'modern', title: 'Unit 7-8: Modern Physics', 
+                content: `
+                    <h2 class="text-3xl font-bold text-white mb-6">Modern Physics</h2>
+                    <div class="space-y-8">
+                        <div class="bg-gray-900 p-6 rounded-xl border-l-4 border-cyan-500">
+                            <h3 class="text-xl font-bold text-cyan-400 mb-4">Dual Nature & Atoms</h3>
+                            <ul class="list-disc list-inside text-slate-300 text-sm space-y-2">
+                                <li><strong>Photoelectric:</strong> $K_{max} = h\\nu - \\phi_0$. Slope of V vs $\\nu$ is $h/e$.</li>
+                                <li><strong>De-Broglie:</strong> $\\lambda = h/p = h/\\sqrt{2mK} = 1.227/\\sqrt{V}$ nm (electron).</li>
+                                <li><strong>Bohr Model:</strong> $L = nh/2\\pi$. Radius $r \\propto n^2$. Energy $E \\propto -13.6/n^2$ eV.</li>
+                            </ul>
+                        </div>
+                    </div>`
             }
         ];
 
-        // --- 4. APP LOGIC ---
+        // --- 3. BLUEPRINT DATA ---
+        const blueprint = {
+            'E': { label: 'Section E (5M)', color: 'indigo', qs: [
+                {no:31, ch:'Electro', t:'Capacitance w/ Dielectric', tip:'Graph V vs d. Formula C=KA/d.'},
+                {no:32, ch:'Optics', t:'Lens Maker Formula', tip:'Draw surfaces separately. Use sign convention.'},
+                {no:33, ch:'Devices', t:'Transformer/Galvanometer', tip:'Draw labeled diagram. List 4 losses.'}
+            ]},
+            'D': { label: 'Section D (4M)', color: 'emerald', qs: [
+                {no:29, ch:'Semi', t:'p-n Junction Case', tip:'Identify Forward/Reverse bias from Voltage.'},
+                {no:30, ch:'Dual', t:'Photoelectric Graph', tip:'Threshold frequency is x-intercept.'}
+            ]},
+            'C': { label: 'Section C (3M)', color: 'amber', qs: [
+                {no:22, ch:'Semi', t:'Full Wave Rectifier', tip:'Draw Input vs Output waveforms aligned.'},
+                {no:23, ch:'Current', t:'Kirchhoff Laws', tip:'Junction Law (Charge), Loop Law (Energy).'},
+                {no:24, ch:'Nuclei', t:'Binding Energy Num', tip:'Use 1u = 931.5 MeV. Check mass defect.'},
+                {no:25, ch:'Optics', t:'Microscope Ray Diagram', tip:'Final image at D (virtual, inverted).'},
+                {no:26, ch:'Wave', t:'Huygens Principle', tip:'Prove i=r or Snell Law geometrically.'},
+                {no:27, ch:'Magnet', t:'Particle Motion', tip:'Radius r = mv/qB. Time period T independent of v.'},
+                {no:28, ch:'EMI', t:'AC Generator EMF', tip:'Max EMF = NBAomega. Derivative of flux.'}
+            ]},
+            'B': { label: 'Section B (2M)', color: 'blue', qs: [
+                {no:18, ch:'Current', t:'Internal Res Graph', tip:'V vs I graph. Slope is -r. Intercept E.'},
+                {no:19, ch:'Electro', t:'Gauss Flux', tip:'Flux depends only on enclosed charge.'},
+                {no:20, ch:'Magnet', t:'Force b/w Wires', tip:'Attract if parallel, Repel if anti-parallel.'},
+                {no:21, ch:'Atoms', t:'Alpha Scattering', tip:'Distance of closest approach calculation.'}
+            ]}
+        };
 
-        let currentSectionId = 'E';
-
+        // --- APP LOGIC ---
         function initApp() {
             renderCharts();
             renderBlueprintTabs();
-            renderBlueprintContent(currentSectionId);
+            renderBlueprintContent('E'); 
             renderStudyNav();
-            switchView('dashboard'); // Default View
+            switchView('dashboard');
+            if (window.MathJax) MathJax.typesetPromise();
         }
 
-        // Navigation
-        function switchView(viewName) {
-            // Hide all views
+        function switchView(view) {
             document.getElementById('view-dashboard').classList.add('hidden');
             document.getElementById('view-study-zone').classList.add('hidden');
+            document.getElementById(`view-${view}`).classList.remove('hidden');
             
-            // Show selected
-            document.getElementById(`view-${viewName}`).classList.remove('hidden');
+            // Toggle Nav Styles
+            document.getElementById('nav-dashboard').classList.toggle('text-white', view === 'dashboard');
+            document.getElementById('nav-dashboard').classList.toggle('bg-gray-800', view === 'dashboard');
+            document.getElementById('nav-study-zone').classList.toggle('text-white', view === 'study-zone');
+            document.getElementById('nav-study-zone').classList.toggle('bg-gray-800', view === 'study-zone');
 
-            // Update Nav Styles
-            const navIds = ['nav-dashboard', 'nav-study-zone'];
-            navIds.forEach(id => {
-                const el = document.getElementById(id);
-                if (id === `nav-${viewName}`) {
-                    el.classList.remove('text-slate-400', 'bg-transparent');
-                    el.classList.add('text-white', 'bg-gray-800', 'shadow-sm');
-                } else {
-                    el.classList.add('text-slate-400', 'bg-transparent');
-                    el.classList.remove('text-white', 'bg-gray-800', 'shadow-sm');
-                }
-            });
+            if(view === 'study-zone' && window.MathJax) MathJax.typesetPromise();
         }
 
-        // Blueprint Logic
         function renderBlueprintTabs() {
-            const container = document.getElementById('section-tabs');
-            container.innerHTML = '';
-            blueprintData.sections.forEach(s => {
-                const btn = document.createElement('button');
-                const active = s.id === currentSectionId;
-                btn.className = `flex-shrink-0 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all border ${
-                    active 
-                    ? `bg-${s.color}-500/10 border-${s.color}-500 text-${s.color}-400` 
-                    : 'bg-gray-800 border-transparent text-slate-500 hover:border-gray-700 hover:text-slate-300'
-                }`;
-                btn.innerHTML = `<i class="fas ${s.icon} mr-2"></i> ${s.label}`;
-                btn.onclick = () => { currentSectionId = s.id; renderBlueprintTabs(); renderBlueprintContent(s.id); };
-                container.appendChild(btn);
+            const c = document.getElementById('section-tabs');
+            c.innerHTML = '';
+            Object.keys(blueprint).forEach(k => {
+                c.innerHTML += `<button onclick="renderBlueprintContent('${k}')" class="flex-shrink-0 px-4 py-2 bg-gray-800 rounded-full text-slate-300 hover:text-white border border-transparent hover:border-gray-600 text-xs uppercase font-bold transition-all">${blueprint[k].label}</button>`;
             });
         }
 
-        function renderBlueprintContent(secId) {
-            const section = blueprintData.sections.find(s => s.id === secId);
-            const container = document.getElementById('content-area');
-            
-            let html = `
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-fade-in">
-            `;
-            
-            section.questions.forEach((q, idx) => {
-                html += `
-                    <div class="glass-panel p-6 rounded-xl border border-gray-800 hover:border-${section.color}-500/50 transition-colors group">
-                        <div class="flex justify-between items-start mb-4">
-                            <span class="text-xs font-mono font-bold bg-${section.color}-500/10 text-${section.color}-400 px-2 py-1 rounded">Q${q.no}</span>
-                            <span class="text-[10px] uppercase font-bold text-slate-500">${q.chapter}</span>
-                        </div>
-                        <h4 class="text-lg font-bold text-white mb-2 group-hover:text-${section.color}-400 transition-colors">${q.topic}</h4>
-                        <div class="bg-gray-900/50 p-3 rounded-lg border border-gray-800">
-                            <p class="text-xs text-slate-400"><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> ${q.tips}</p>
-                        </div>
-                        <div class="mt-4 flex items-center gap-2">
-                            <input type="checkbox" id="chk-${secId}-${idx}" class="custom-checkbox sr-only" onchange="updateProgress()">
-                            <div class="w-5 h-5 border-2 border-gray-600 rounded flex items-center justify-center transition-colors cursor-pointer">
-                                <i class="fas fa-check text-xs text-white opacity-0 transition-opacity"></i>
-                            </div>
-                            <label for="chk-${secId}-${idx}" class="text-xs text-slate-500 font-bold uppercase cursor-pointer select-none">Mark Complete</label>
-                        </div>
-                    </div>
-                `;
-            });
-            html += `</div>`;
-            container.innerHTML = html;
-        }
-
-        // Modal Logic (Q&A)
-        function openModal(type) {
-            const modal = document.getElementById('modal-panel');
-            const backdrop = document.getElementById('modal-backdrop');
-            const title = document.getElementById('modal-title');
-            const subtitle = document.getElementById('modal-subtitle');
-            const body = document.getElementById('modal-body');
-
-            const data = qaDatabase[type];
-            const meta = type === 'hot-list' 
-                ? { t: 'Most Probable Questions', s: 'High probability based on 2025 SQP analysis', c: 'blue' }
-                : { t: 'High Frequency Questions', s: 'Concepts repeated in last 5 years', c: 'amber' };
-
-            title.innerHTML = `<span class="text-${meta.c}-500 mr-2"><i class="fas ${type === 'hot-list' ? 'fa-fire' : 'fa-history'}"></i></span> ${meta.t}`;
-            subtitle.textContent = meta.s;
-
-            // Render Accordion Items
-            body.innerHTML = data.map((item, index) => `
-                <div class="bg-gray-800/50 rounded-xl border border-gray-700 overflow-hidden">
-                    <button onclick="toggleAccordion(${index})" class="w-full text-left p-4 flex justify-between items-start hover:bg-gray-800 transition-colors">
-                        <span class="font-semibold text-slate-200 text-sm pr-4">${item.q}</span>
-                        <i class="fas fa-chevron-down text-slate-500 mt-1 transition-transform duration-300" id="icon-${index}"></i>
+        function renderBlueprintContent(k) {
+            const s = blueprint[k];
+            const c = document.getElementById('content-area');
+            c.innerHTML = `<div class="grid grid-cols-1 md:grid-cols-3 gap-6 animate-fade-in">${
+                s.qs.map(q => `
+                    <button onclick="openQuestionModal('${q.t}', '${q.tip}')" class="text-left w-full glass-panel p-6 rounded-xl border border-gray-800 hover:border-${s.color}-500/50 transition-all group relative overflow-hidden">
+                        <div class="flex justify-between mb-2 z-10 relative"><span class="text-xs font-bold text-${s.color}-400 bg-${s.color}-900/20 px-2 py-1 rounded">Q${q.no}</span><span class="text-xs text-slate-500 font-bold uppercase">${q.ch}</span></div>
+                        <h4 class="text-white font-bold mb-2 z-10 relative group-hover:text-${s.color}-300">${q.t}</h4>
+                        <div class="text-xs text-slate-400 bg-black/30 p-2 rounded z-10 relative">💡 ${q.tip}</div>
+                        <div class="absolute inset-0 bg-${s.color}-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                     </button>
-                    <div id="content-${index}" class="answer-content bg-[#0B0E14] border-t border-gray-800">
-                        <div class="p-5 text-sm text-slate-300 leading-relaxed space-y-4">
-                            <div class="pl-3 border-l-2 border-${meta.c}-500">
-                                ${item.a}
-                            </div>
-                            ${item.twist ? `
-                                <div class="bg-${meta.c}-900/10 p-3 rounded border border-${meta.c}-500/20">
-                                    <div class="text-${meta.c}-400 text-xs font-bold uppercase mb-1"><i class="fas fa-random"></i> Exam Twist</div>
-                                    ${item.twist}
-                                </div>
-                            ` : ''}
-                        </div>
+                `).join('')
+            }</div>`;
+        }
+
+        function openQuestionModal(title, tip) {
+            // Simplified modal for blueprint questions (expandable in future)
+            openModal('hot-list'); // For now, defaulting to main Q&A. Ideally, map specific Qs.
+        }
+
+        function openModal(type) {
+            document.getElementById('modal-backdrop').classList.remove('hidden');
+            document.getElementById('modal-panel').classList.remove('hidden');
+            const data = qaDatabase[type] || qaDatabase['hot-list']; // Fallback
+            document.getElementById('modal-title').innerText = type === 'hot-list' ? '🔥 Most Probable Questions' : '⚡ High Frequency Questions';
+            document.getElementById('modal-body').innerHTML = data.map(item => `
+                <div class="bg-gray-800/50 rounded-xl p-6 border border-gray-700 mb-4">
+                    <h4 class="text-white font-bold mb-3 text-base">${item.q}</h4>
+                    <div class="text-slate-300 text-sm mb-4 pl-4 border-l-2 border-blue-500 leading-relaxed">${item.a}</div>
+                    <div class="text-xs bg-yellow-500/10 text-yellow-200 p-3 rounded border border-yellow-500/20 flex gap-2">
+                        <i class="fas fa-random mt-0.5"></i> <div>${item.twist}</div>
                     </div>
                 </div>
             `).join('');
-
-            // Show Modal
-            backdrop.classList.remove('hidden');
-            modal.classList.remove('hidden');
-            setTimeout(() => {
-                backdrop.classList.remove('opacity-0');
-                modal.classList.remove('scale-95', 'opacity-0');
-                modal.classList.add('scale-100', 'opacity-100');
-            }, 10);
+            if(window.MathJax) MathJax.typesetPromise();
         }
 
         function closeModal() {
-            const modal = document.getElementById('modal-panel');
-            const backdrop = document.getElementById('modal-backdrop');
-            
-            backdrop.classList.add('opacity-0');
-            modal.classList.remove('scale-100', 'opacity-100');
-            modal.classList.add('scale-95', 'opacity-0');
-            
-            setTimeout(() => {
-                backdrop.classList.add('hidden');
-                modal.classList.add('hidden');
-            }, 300);
+            document.getElementById('modal-backdrop').classList.add('hidden');
+            document.getElementById('modal-panel').classList.add('hidden');
         }
 
-        function toggleAccordion(index) {
-            const content = document.getElementById(`content-${index}`);
-            const icon = document.getElementById(`icon-${index}`);
-            
-            if (content.classList.contains('open')) {
-                content.classList.remove('open');
-                icon.style.transform = 'rotate(0deg)';
-            } else {
-                content.classList.add('open');
-                icon.style.transform = 'rotate(180deg)';
-            }
-        }
-
-        // Study Zone Logic
         function renderStudyNav() {
-            const navContainer = document.getElementById('study-nav');
-            navContainer.innerHTML = studyData.map(topic => `
-                <button onclick="renderStudyContent('${topic.id}')" class="w-full text-left p-4 rounded-xl border border-gray-800 bg-gray-900/50 hover:bg-gray-800 hover:border-blue-500/50 transition-all group">
-                    <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-lg bg-gray-800 flex items-center justify-center text-slate-400 group-hover:text-blue-400 transition-colors">
-                            <i class="fas ${topic.icon}"></i>
-                        </div>
-                        <span class="font-semibold text-slate-300 group-hover:text-white">${topic.title}</span>
-                    </div>
-                </button>
-            `).join('');
+            document.getElementById('study-nav').innerHTML = studyData.map(t => 
+                `<button onclick="renderStudyContent('${t.id}')" class="w-full text-left p-4 rounded-xl bg-gray-900 hover:bg-gray-800 border border-gray-800 text-slate-300 hover:text-white font-bold mb-2 transition-colors border-l-4 border-transparent hover:border-blue-500">${t.title}</button>`
+            ).join('');
         }
 
-        function renderStudyContent(topicId) {
-            const contentContainer = document.getElementById('study-content');
-            const data = studyData.find(t => t.id === topicId);
-            
-            // Animation reset
-            contentContainer.classList.remove('animate-fade-in');
-            void contentContainer.offsetWidth;
-            contentContainer.classList.add('animate-fade-in');
-
-            contentContainer.innerHTML = data.content;
+        function renderStudyContent(id) {
+            document.getElementById('study-content').innerHTML = studyData.find(t => t.id === id).content;
+            if(window.MathJax) MathJax.typesetPromise();
         }
 
-        function updateProgress() {
-            const total = document.querySelectorAll('.custom-checkbox').length;
-            const checked = document.querySelectorAll('.custom-checkbox:checked').length;
-            const pct = total === 0 ? 0 : Math.round((checked / total) * 100);
-            
-            document.getElementById('header-progress').style.width = `${pct}%`;
-            document.getElementById('header-percent').innerText = `${pct}%`;
-        }
-
-        // Charts
         function renderCharts() {
             Chart.defaults.color = '#94A3B8';
-            Chart.defaults.font.family = "'Inter', sans-serif";
-
+            Chart.defaults.font.family = "'Inter'";
             new Chart(document.getElementById('weightageChart'), {
                 type: 'bar',
                 data: {
                     labels: ['Electro', 'Current', 'Magnet', 'EMI/AC', 'Optics', 'Modern', 'Semi'],
-                    datasets: [{
-                        label: 'Marks',
-                        data: [16, 7, 17, 8, 18, 12, 7],
-                        backgroundColor: ['#3B82F6', '#3B82F6', '#6366F1', '#6366F1', '#EC4899', '#10B981', '#F59E0B'],
-                        borderRadius: 4
-                    }]
+                    datasets: [{ label: 'Marks', data: [16, 7, 17, 8, 18, 12, 7], backgroundColor: '#3B82F6', borderRadius: 4 }]
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        y: { grid: { color: '#1e293b' }, beginAtZero: true },
-                        x: { grid: { display: false } }
-                    }
-                }
+                options: { plugins: { legend: { display: false } }, scales: { y: { grid: { color: '#1e293b' } }, x: { grid: { display: false } } } }
             });
-
             new Chart(document.getElementById('typologyChart'), {
                 type: 'doughnut',
                 data: {
                     labels: ['Recall', 'Application', 'Analysis'],
-                    datasets: [{
-                        data: [38, 32, 30],
-                        backgroundColor: ['#3B82F6', '#8B5CF6', '#F43F5E'],
-                        borderWidth: 0
-                    }]
+                    datasets: [{ data: [38, 32, 30], backgroundColor: ['#3B82F6', '#8B5CF6', '#F43F5E'], borderWidth: 0 }]
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: '70%',
-                    plugins: { legend: { position: 'right' } }
-                }
+                options: { cutout: '75%', plugins: { legend: { position: 'right' } } }
             });
         }
 
